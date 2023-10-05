@@ -1,64 +1,107 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nebengk/Pages/Beritumpangan1.dart'; // Sesuaikan dengan nama file yang sesuai
 
-class BeriTumpangan extends StatelessWidget {
+class BeriTumpangan extends StatefulWidget {
+  @override
+  _BeriTumpanganState createState() => _BeriTumpanganState();
+}
+
+class _BeriTumpanganState extends State<BeriTumpangan> {
+  TextEditingController jenisKendaraanController = TextEditingController();
+  TextEditingController jumlahKursiController = TextEditingController();
+  TextEditingController biayaPerjalananController = TextEditingController();
+  TextEditingController detailPerjalananController = TextEditingController();
+  TextEditingController batasWaktuPemesananController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFD9D9D9),
+      appBar: AppBar(
+        backgroundColor: Color(0xFF3668B2),
+        title: Text("NeBengK"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.person),
+            onPressed: () {
+              // Implementasi tindakan ketika tombol pesan ditekan
+            },
+          ),
+        ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Color(0xFF3668B2),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundColor: Colors.white,
+                    // Tambahkan foto profil pengguna di sini
+                    // Misalnya, jika foto profil tersedia di assets, Anda bisa menggunakan:
+                    // backgroundImage: AssetImage('assets/profile.jpg'),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Nama Pengguna',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    'Email Pengguna',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.account_circle),
+              title: Text('Akun'),
+              onTap: () {
+                // Aksi yang ingin Anda lakukan ketika "Akun" diklik
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.help),
+              title: Text('Pusat Bantuan'),
+              onTap: () {
+                // Aksi yang ingin Anda lakukan ketika "Pusat Bantuan" diklik
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.support),
+              title: Text('Dukungan'),
+              onTap: () {
+                // Aksi yang ingin Anda lakukan ketika "Dukungan" diklik
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Logout'),
+              onTap: () {
+                // Aksi yang ingin Anda lakukan ketika "Logout" diklik
+              },
+            ),
+          ],
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                padding: EdgeInsets.only(right: 20, left: 15, top: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.menu,
-                          color: Colors.black,
-                          size: 30,
-                        ),
-                        SizedBox(width: 8),
-                        Text(
-                          "NeBengK",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Color(0xFFD9D9D9),
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.white.withOpacity(0.5),
-                            blurRadius: 2,
-                          ),
-                        ],
-                      ),
-                      child: InkWell(
-                        onTap: () {
-                          // Aksi ketika ikon profil ditekan
-                        },
-                        child: Icon(
-                          CupertinoIcons.person,
-                          size: 30,
-                          color: const Color.fromARGB(255, 0, 0, 0),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
               SizedBox(height: 20), // Spasi antara header dan form
 
               // Form untuk memasukkan data perjalanan
@@ -67,22 +110,27 @@ class BeriTumpangan extends StatelessWidget {
                 child: Column(
                   children: [
                     TextFormField(
+                      controller: jenisKendaraanController,
                       decoration: InputDecoration(labelText: 'Jenis Kendaraan'),
                     ),
                     SizedBox(height: 15),
                     TextFormField(
+                      controller: jumlahKursiController,
                       decoration: InputDecoration(labelText: 'Jumlah Kursi'),
                     ),
                     SizedBox(height: 15),
                     TextFormField(
+                      controller: biayaPerjalananController,
                       decoration: InputDecoration(labelText: 'Biaya Perjalanan'),
                     ),
                     SizedBox(height: 15),
                     TextFormField(
+                      controller: detailPerjalananController,
                       decoration: InputDecoration(labelText: 'Detail Perjalanan'),
                     ),
                     SizedBox(height: 15),
                     TextFormField(
+                      controller: batasWaktuPemesananController,
                       decoration: InputDecoration(labelText: 'Batas Waktu Pemesanan'),
                     ),
                     SizedBox(height: 20),
@@ -96,8 +144,18 @@ class BeriTumpangan extends StatelessWidget {
                         );
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-                        // Berpindah ke halaman baru (ganti dengan nama yang sesuai)
-                    
+                        // Berpindah ke halaman Beritumpangan1 dengan data yang dikirimkan
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => Beritumpangan1(
+                              jenisKendaraan: jenisKendaraanController.text,
+                              jumlahKursi: jumlahKursiController.text,
+                              biayaPerjalanan: biayaPerjalananController.text,
+                              detailPerjalanan: detailPerjalananController.text,
+                              batasWaktuPemesanan: batasWaktuPemesananController.text,
+                            ),
+                          ),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         primary: const Color(0xFF49648D),
