@@ -1,63 +1,31 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nebengk/Pages/PemesananKursiPage.dart';
 
 class Penumpang extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFD9D9D9),
+      appBar: AppBar(
+        backgroundColor: Color(0xFF3668B2),
+        title: Text("NeBengK"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.person), // Mengganti ikon person menjadi ikon chat
+            onPressed: () {
+              // Implementasi tindakan ketika tombol chat ditekan
+            },
+          ),
+        ],
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                padding: EdgeInsets.only(right: 20, left: 15, top: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.menu,
-                          color: Colors.black,
-                          size: 30,
-                        ),
-                        SizedBox(width: 8),
-                        Text(
-                          "NeBengK",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Color(0xFFD9D9D9),
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.white.withOpacity(0.5),
-                            blurRadius: 2,
-                          ),
-                        ],
-                      ),
-                      child: InkWell(
-                        onTap: () {},
-                        child: Icon(
-                          CupertinoIcons.person,
-                          size: 30,
-                          color: const Color.fromARGB(255, 0, 0, 0),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              SizedBox(height: 20), // Spasi antara header dan pencarian
 
+              // Widget Pencarian
               Container(
                 margin: EdgeInsets.all(15),
                 padding: EdgeInsets.symmetric(horizontal: 15),
@@ -82,50 +50,53 @@ class Penumpang extends StatelessWidget {
                   ],
                 ),
               ),
-              // Daftar kotak dengan data
+              
+              SizedBox(height: 20), // Spasi antara pencarian dan daftar perjalanan
               Container(
                 margin: EdgeInsets.all(15),
                 child: ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: 5, // Ganti dengan jumlah data yang sesuai
+                  itemCount: 5,
                   itemBuilder: (context, index) {
-                    // Data palsu (ganti dengan data sesuai)
+                    // Gantilah data berikut dengan data yang sesuai dari daftar perjalanan
                     String tanggal = "01-09-2023";
                     String jam = "08:00 AM";
                     int jumlahKursi = 3;
                     String lokasi = "ITK";
                     String pemberiTumpangan = "John Doe";
 
-                    return Container(
-                      margin: EdgeInsets.only(bottom: 15),
-                      padding: EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Tanggal: $tanggal"),
-                          Text("Jam: $jam"),
-                          Text("Jumlah Kursi: $jumlahKursi"),
-                          Text("Lokasi: $lokasi"),
-                          Text("Pemberi Tumpangan: $pemberiTumpangan"),
-                          SizedBox(height: 10),
-                          // Menggunakan ikon mobil
-                          Icon(
+                    return GestureDetector(
+                      onTap: () {
+                        // Navigasi ke halaman rinci dengan data yang sesuai
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => PemesananKursiPage(
+                              tanggal: tanggal,
+                              jam: jam,
+                              jumlahKursi: jumlahKursi,
+                              lokasi: lokasi,
+                              pemberiTumpangan: pemberiTumpangan,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Card(
+                        elevation: 2, // Efek elevasi untuk card
+                        child: ListTile(
+                          leading: Icon(
                             Icons.directions_car,
-                            size: 80,
+                            size: 50,
                             color: Colors.blue, // Ganti dengan warna yang sesuai
                           ),
-                        ],
+                          title: Text("Lokasi: $lokasi"),
+                          subtitle: Text("Tanggal: $tanggal\nJam: $jam\nJumlah Kursi: $jumlahKursi\nPemberi Tumpangan: $pemberiTumpangan"),
+                        ),
                       ),
                     );
                   },
                 ),
-              ),
-
+              )
             ],
           ),
         ),
