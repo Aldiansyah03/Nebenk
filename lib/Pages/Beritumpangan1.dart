@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nebengk/Pages/detail_penumpang.dart';
 
 class Beritumpangan1 extends StatelessWidget {
   final String jenisKendaraan;
@@ -136,6 +137,10 @@ class Beritumpangan1 extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           // Tindakan yang diambil saat teks "Lihat" diklik
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => DetailPenumpang()), // Mengarahkan ke halaman DetailPenumpang
+                          );
                         },
                         child: Text("Lihat", style: TextStyle(fontSize: 16.0, color: Colors.blue)),
                       ),
