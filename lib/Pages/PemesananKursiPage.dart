@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'detail_penumpang.dart';
+
+
 class PemesananKursiPage extends StatelessWidget {
   final String tanggal;
   final String jam;
@@ -135,6 +138,10 @@ class PemesananKursiPage extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           // Tindakan yang diambil saat teks "Lihat" diklik
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => DetailPenumpang()), // Mengarahkan ke halaman DetailPenumpang
+                          );
                         },
                         child: Text("Lihat", style: TextStyle(fontSize: 16.0, color: Colors.blue)),
                       ),
@@ -214,6 +221,10 @@ class PemesananKursiPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           // Tindakan yang diambil saat tombol Pesan Kursi ditekan
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => DetailPenumpang ()), // Mengarahkan ke halaman DetailPenumpang
+          );
         },
         label: Text("Pesan Kursi"),
         backgroundColor: Color(0xFF49648D), 
