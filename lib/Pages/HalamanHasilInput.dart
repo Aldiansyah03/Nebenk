@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nebengk/Pages/Beritumpangan1.dart'; // Sesuaikan dengan nama file yang sesuai
+import 'package:nebengk/Pages/Beritumpangan1.dart';
 
 class BeriTumpangan extends StatefulWidget {
   @override
@@ -8,11 +7,15 @@ class BeriTumpangan extends StatefulWidget {
 }
 
 class _BeriTumpanganState extends State<BeriTumpangan> {
-  TextEditingController jenisKendaraanController = TextEditingController();
-  TextEditingController jumlahKursiController = TextEditingController();
+  String selectedVehicleType = "Mobil"; // Variabel untuk jenis kendaraan
+  int selectedSeatCount = 2; // Variabel untuk jumlah kursi
+
   TextEditingController biayaPerjalananController = TextEditingController();
   TextEditingController detailPerjalananController = TextEditingController();
   TextEditingController batasWaktuPemesananController = TextEditingController();
+
+  DateTime selectedDate = DateTime.now(); // Variabel untuk tanggal perjalanan
+  TimeOfDay selectedTime = TimeOfDay.now(); // Variabel untuk jam keberangkatan
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +23,13 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
       backgroundColor: Color(0xFFD9D9D9),
       appBar: AppBar(
         backgroundColor: Color(0xFF3668B2),
-        title: Text("NeBengK"),
+        title: Text("Buat Perjalanan"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.person),
@@ -30,98 +39,67 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
           ),
         ],
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Color(0xFF3668B2),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CircleAvatar(
-                    radius: 40,
-                    backgroundColor: Colors.white,
-                    // Tambahkan foto profil pengguna di sini
-                    // Misalnya, jika foto profil tersedia di assets, Anda bisa menggunakan:
-                    // backgroundImage: AssetImage('assets/profile.jpg'),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'Nama Pengguna',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Text(
-                    'Email Pengguna',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text('Akun'),
-              onTap: () {
-                // Aksi yang ingin Anda lakukan ketika "Akun" diklik
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.help),
-              title: Text('Pusat Bantuan'),
-              onTap: () {
-                // Aksi yang ingin Anda lakukan ketika "Pusat Bantuan" diklik
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.support),
-              title: Text('Dukungan'),
-              onTap: () {
-                // Aksi yang ingin Anda lakukan ketika "Dukungan" diklik
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
-              onTap: () {
-                // Aksi yang ingin Anda lakukan ketika "Logout" diklik
-              },
-            ),
-          ],
-        ),
-      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 20), // Spasi antara header dan form
-
-              // Form untuk memasukkan data perjalanan
+              SizedBox(height: 20),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
-                    TextFormField(
-                      controller: jenisKendaraanController,
+                    DropdownButtonFormField<String>(
+                      value: selectedVehicleType,
+                      items: ["Mobil", "Motor"].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedVehicleType = newValue!;
+                          if (selectedVehicleType == "Motor") {
+                            selectedSeatCount = 1;
+                          } else {
+                            selectedSeatCount = 2;
+                          }
+                        });
+                      },
                       decoration: InputDecoration(labelText: 'Jenis Kendaraan'),
                     ),
                     SizedBox(height: 15),
-                    TextFormField(
-                      controller: jumlahKursiController,
+                    DropdownButtonFormField<int>(
+                      value: selectedSeatCount,
+                      items: (selectedVehicleType == "Mobil")
+                          ? [2, 3, 4].map((int value) {
+                              return DropdownMenuItem<int>(
+                                value: value,
+                                child: Text('$value kursi'),
+                              );
+                            }).toList()
+                          : [1].map((int value) {
+                              return DropdownMenuItem<int>(
+                                value: value,
+                                child: Text('$value kursi'),
+                              );
+                            }).toList(),
+                      onChanged: (int? newValue) {
+                        setState(() {
+                          selectedSeatCount = newValue!;
+                        });
+                      },
                       decoration: InputDecoration(labelText: 'Jumlah Kursi'),
                     ),
                     SizedBox(height: 15),
                     TextFormField(
                       controller: biayaPerjalananController,
-                      decoration: InputDecoration(labelText: 'Biaya Perjalanan'),
+                      decoration: InputDecoration(labelText: 'Keterangan kendaraan'),
+                    ),
+                    SizedBox(height: 15),
+                    TextFormField(
+                      controller: batasWaktuPemesananController,
+                      decoration: InputDecoration(labelText: 'Biaya patungan/orang'),
                     ),
                     SizedBox(height: 15),
                     TextFormField(
@@ -129,30 +107,76 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                       decoration: InputDecoration(labelText: 'Detail Perjalanan'),
                     ),
                     SizedBox(height: 15),
-                    TextFormField(
-                      controller: batasWaktuPemesananController,
-                      decoration: InputDecoration(labelText: 'Batas Waktu Pemesanan'),
+                    InkWell(
+                      onTap: () async {
+                        final pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: selectedDate,
+                          firstDate: DateTime.now(),
+                          lastDate: DateTime(2101),
+                        );
+                        if (pickedDate != null && pickedDate != selectedDate) {
+                          setState(() {
+                            selectedDate = pickedDate;
+                          });
+                        }
+                      },
+                      child: Row(
+                        children: [
+                          Icon(Icons.calendar_today),
+                          SizedBox(width: 10),
+                          Text(
+                            "${selectedDate.toLocal()}".split(' ')[0],
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          SizedBox(width: 10),
+                          Icon(Icons.edit), // Ikona edit jika pengguna ingin mengubah tanggal
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    InkWell(
+                      onTap: () async {
+                        final pickedTime = await showTimePicker(
+                          context: context,
+                          initialTime: selectedTime,
+                        );
+                        if (pickedTime != null && pickedTime != selectedTime) {
+                          setState(() {
+                            selectedTime = pickedTime;
+                          });
+                        }
+                      },
+                      child: Row(
+                        children: [
+                          Icon(Icons.access_time),
+                          SizedBox(width: 10),
+                          Text(
+                            selectedTime.format(context),
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          SizedBox(width: 10),
+                          Icon(Icons.edit), // Ikona edit jika pengguna ingin mengubah jam
+                        ],
+                      ),
                     ),
                     SizedBox(height: 20),
-
-                    // Tombol "Buat Perjalanan"
                     ElevatedButton(
                       onPressed: () {
-                        // Tampilkan pemberitahuan
                         final snackBar = SnackBar(
                           content: Text('Perjalanan Berhasil dibuat. Silahkan tunggu untuk pengajuan dari pengguna lain.'),
                         );
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                        // Berpindah ke halaman Beritumpangan1 dengan data yang dikirimkan
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => Beritumpangan1(
-                              jenisKendaraan: jenisKendaraanController.text,
-                              jumlahKursi: jumlahKursiController.text,
+                              jenisKendaraan: selectedVehicleType,
+                              jumlahKursi: selectedSeatCount.toString(),
                               biayaPerjalanan: biayaPerjalananController.text,
                               detailPerjalanan: detailPerjalananController.text,
                               batasWaktuPemesanan: batasWaktuPemesananController.text,
+                              tanggalPerjalanan: "${selectedDate.toLocal()}".split(' ')[0], // Tanggal perjalanan
+                              jamKeberangkatan: selectedTime.format(context), // Jam keberangkatan
                             ),
                           ),
                         );
