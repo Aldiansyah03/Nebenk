@@ -33,14 +33,11 @@ class HomePage extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 40,
-                    backgroundColor: Colors.white,
-                    // Tambahkan foto profil pengguna di sini
-                    // Misalnya, jika foto profil tersedia di assets, Anda bisa menggunakan:
-                    // backgroundImage: AssetImage('assets/profile.jpg'),
+                    child: Image.asset("assets/profil.png"),
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'Nama Pengguna',
+                    'Aldiansyah',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
@@ -48,7 +45,7 @@ class HomePage extends StatelessWidget {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    'Email Pengguna',
+                    'Aldiansyah0302@gmail.com',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 14,
