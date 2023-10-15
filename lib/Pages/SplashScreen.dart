@@ -1,31 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:nebengk/Pages/HomePage.dart'; // Gantilah 'your_app_name' dengan nama yang sesuai
+import 'package:nebengk/Pages/HomePage.dart'; 
 
 class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFD9D9D9), // Menggunakan format warna yang valid
-      body: Center( // Menggunakan 'Center' dengan 'C' besar
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              "Images/Nk.png",
-              height: 100,
-            ), 
-            Container(
-              margin: EdgeInsets.only(top: 50),
-              child: Text(
-                "Going To Kampus ",
-                style: TextStyle(
-                  color: Colors.black, // Menggunakan Colors.black untuk warna hitam
-                  fontSize: 30, // Menggunakan 'fontSize' dengan 'F' besar
-                  fontWeight: FontWeight.bold, // Menggunakan 'FontWeight.bold' dengan 'F' dan 'W' besar
-                ),
+      backgroundColor: Color(0xFFD9D9D9),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Text(
+              "Nebeng Kampus",
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
             ),
-            SizedBox(height: 50),
+          ),
+          Center(
+            child: Text(
+              "Going to Campus ITK",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 350,
+            height: 350,
+            child: Image.asset("assets/NK.png"),
+          ),
+           SizedBox(height: 50),
 
             InkWell(
               onTap: () {
@@ -47,8 +56,7 @@ class SplashScreen extends StatelessWidget {
                 ),
               ),
             )
-          ],
-        ),
+        ],
       ),
     );
   }
