@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nebengk/Pages/HalamanHasilInput.dart';
 import 'package:nebengk/Pages/penumpang.dart';
+import 'package:nebengk/Pages/profil.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -58,7 +59,8 @@ class HomePage extends StatelessWidget {
               leading: Icon(Icons.account_circle),
               title: Text('Akun'),
               onTap: () {
-                // Aksi yang ingin Anda lakukan ketika "Akun" diklik
+                // Navigate to the user profile page when "Akun" is tapped.
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
               },
             ),
             ListTile(
