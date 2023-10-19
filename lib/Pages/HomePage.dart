@@ -34,7 +34,7 @@ class HomePage extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 40,
-                    child: Image.asset("assets/profil.png"),
+                    child: Image.asset("assets/icons/profil.png"),
                   ),
                   SizedBox(height: 10),
                   Text(
@@ -60,7 +60,8 @@ class HomePage extends StatelessWidget {
               title: Text('Akun'),
               onTap: () {
                 // Navigate to the user profile page when "Akun" is tapped.
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()));
               },
             ),
             ListTile(
@@ -101,7 +102,8 @@ class HomePage extends StatelessWidget {
             SizedBox(height: 20),
             InkWell(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => BeriTumpangan()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => BeriTumpangan()));
                 // Aksi yang ingin Anda lakukan saat kotak motor ditekan
               },
               child: Container(
@@ -141,7 +143,8 @@ class HomePage extends StatelessWidget {
             SizedBox(height: 20),
             InkWell(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Penumpang()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Penumpang()));
                 // Aksi yang ingin Anda lakukan saat kotak penumpang ditekan
               },
               child: Container(
