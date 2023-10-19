@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nebengk/Pages/HalamanHasilInput.dart';
 import 'package:nebengk/Pages/penumpang.dart';
 import 'package:nebengk/Pages/profil.dart';
+import 'package:nebengk/Pages/pusatbantuan.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -69,6 +70,8 @@ class HomePage extends StatelessWidget {
               title: Text('Pusat Bantuan'),
               onTap: () {
                 // Aksi yang ingin Anda lakukan ketika "Pusat Bantuan" diklik
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => PusatBantuan()));
               },
             ),
             ListTile(

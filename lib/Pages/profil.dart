@@ -11,6 +11,7 @@ class ProfilePage extends StatelessWidget {
           radius: 100,
           child: Image.asset("assets/icons/profil.png"),
         ),
+        const SizedBox(height: 20),
         itemProfile('Nama', 'Muhammad Aldiansyah', CupertinoIcons.person),
         const SizedBox(height: 10),
         itemProfile('Nomor Telepon', '085266127946', CupertinoIcons.phone),
