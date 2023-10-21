@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:nebengk/Pages/HalamanHasilInput.dart';
 import 'package:nebengk/Pages/penumpang.dart';
 import 'package:nebengk/Pages/profil.dart';
+<<<<<<< HEAD
+=======
+import 'package:nebengk/Pages/pusatbantuan.dart';
+>>>>>>> dd8aaa82aaeda1f9597ef96a5d8f9f6a44021857
 
 class HomePage extends StatelessWidget {
   @override
@@ -34,7 +38,11 @@ class HomePage extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 40,
+<<<<<<< HEAD
                     child: Image.asset("assets/profil.png"),
+=======
+                    child: Image.asset("assets/icons/profil.png"),
+>>>>>>> dd8aaa82aaeda1f9597ef96a5d8f9f6a44021857
                   ),
                   SizedBox(height: 10),
                   Text(
@@ -60,7 +68,12 @@ class HomePage extends StatelessWidget {
               title: Text('Akun'),
               onTap: () {
                 // Navigate to the user profile page when "Akun" is tapped.
+<<<<<<< HEAD
                 Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+=======
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()));
+>>>>>>> dd8aaa82aaeda1f9597ef96a5d8f9f6a44021857
               },
             ),
             ListTile(
@@ -68,6 +81,11 @@ class HomePage extends StatelessWidget {
               title: Text('Pusat Bantuan'),
               onTap: () {
                 // Aksi yang ingin Anda lakukan ketika "Pusat Bantuan" diklik
+<<<<<<< HEAD
+=======
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => PusatBantuan()));
+>>>>>>> dd8aaa82aaeda1f9597ef96a5d8f9f6a44021857
               },
             ),
             ListTile(
@@ -101,7 +119,12 @@ class HomePage extends StatelessWidget {
             SizedBox(height: 20),
             InkWell(
               onTap: () {
+<<<<<<< HEAD
                 Navigator.push(context, MaterialPageRoute(builder: (context) => BeriTumpangan()));
+=======
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => BeriTumpangan()));
+>>>>>>> dd8aaa82aaeda1f9597ef96a5d8f9f6a44021857
                 // Aksi yang ingin Anda lakukan saat kotak motor ditekan
               },
               child: Container(
@@ -141,7 +164,12 @@ class HomePage extends StatelessWidget {
             SizedBox(height: 20),
             InkWell(
               onTap: () {
+<<<<<<< HEAD
                 Navigator.push(context, MaterialPageRoute(builder: (context) => Penumpang()));
+=======
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Penumpang()));
+>>>>>>> dd8aaa82aaeda1f9597ef96a5d8f9f6a44021857
                 // Aksi yang ingin Anda lakukan saat kotak penumpang ditekan
               },
               child: Container(
