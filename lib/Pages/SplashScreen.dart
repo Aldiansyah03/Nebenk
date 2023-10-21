@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nebengk/Pages/HomePage.dart';
+// import 'package:nebengk/Pages/HomePage.dart';
+import 'package:nebengk/Pages/LoginScreen.dart';
 
 class SplashScreen extends StatelessWidget {
   @override
@@ -37,7 +38,8 @@ class SplashScreen extends StatelessWidget {
           SizedBox(height: 50),
           InkWell(
             onTap: () {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => LoginPage()));
             },
             child: Ink(
               padding: EdgeInsets.symmetric(horizontal: 80, vertical: 16),
@@ -48,13 +50,15 @@ class SplashScreen extends StatelessWidget {
               child: Text(
                 "Get Started",
                 style: TextStyle(
-                  color: Colors.white,
+                  color:
+                      Colors.white, // Menggunakan Colors.white untuk warna teks
                   fontSize: 18,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight
+                      .bold, // Menggunakan FontWeight.bold untuk ketebalan teks
                 ),
               ),
             ),
-          ),
+          )
         ],
       ),
     );

@@ -1,11 +1,18 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:nebengk/Pages/HomePage.dart';
+import 'package:nebengk/Pages/LoginScreen.dart';
 import 'package:nebengk/Pages/SplashScreen.dart';
+import 'package:nebengk/Pages/firebase_options.dart';
 
-void main() {
-  runApp(MyApp());
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  runApp( MyApp());
 }
-
 class MyApp extends StatelessWidget {
 
   @override
@@ -14,7 +21,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         "/": (context) => SplashScreen(),
-        "/HomePage": (context) => HomePage(),
+        "/LoginScreen": (context) => LoginPage(),
       },
     );
   }
