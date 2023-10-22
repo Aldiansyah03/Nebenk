@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:nebengk/Pages/HomePage.dart';
 import 'package:nebengk/Pages/register.dart';
+import 'package:nebengk/Pages/resetpass.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -13,15 +14,26 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  void submit (BuildContext context) async{
-    try{
-      final credential=await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text , password: passwordController.text);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
-    }on FirebaseAuthException catch(e){
-      print("error");
+  void submit(BuildContext context) async {
+  try {
+    final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: emailController.text,
+      password: passwordController.text,
+    );
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'user-not-found') {
+      // Email tidak ditemukan, berikan pesan kesalahan
+      print('Email tidak ditemukan. Silakan daftar terlebih dahulu.');
+    } else if (e.code == 'wrong-password') {
+      // Kata sandi salah, berikan pesan kesalahan
+      print('Kata sandi salah. Silakan coba lagi.');
+    } else {
+      // Kesalahan umum lainnya, berikan pesan kesalahan umum
+      print('Terjadi kesalahan saat login: ${e.code}');
     }
-    
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
 
 
                   // Setelah login berhasil, navigasikan ke halaman utama
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+                 
                 },
                 child: Text('Login'),
               ),
@@ -67,6 +79,14 @@ class _LoginPageState extends State<LoginPage> {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationPage()));
                 },
                 child: Text('Register'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ResetPasswordPage(),
+                  ));
+                },
+                child: Text('Lupa Kata Sandi'),
               ),
             ],
           ),
