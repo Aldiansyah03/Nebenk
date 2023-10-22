@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "236504080573",
+    "project_id": "nebengk-bf210",
+    "storage_bucket": "nebengk-bf210.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236504080573:android:278e03828f66d3aab157d4",
+        "android_client_info": {
+          "package_name": "com.example.nebengk"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrO8TrB1aN2D7nKUBleG0MwqMQBFmyj9o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
