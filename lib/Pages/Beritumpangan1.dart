@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 // import 'package:nebengk/Pages/detail_penumpang.dart';
-
 class Beritumpangan1 extends StatelessWidget {
   final String jenisKendaraan;
   final String jumlahKursi;
@@ -141,4 +140,3 @@ class Beritumpangan1 extends StatelessWidget {
     );
   }
 }
-

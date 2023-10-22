@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nebengk/Pages/HomePage.dart';
+// import 'package:nebengk/Pages/HomePage.dart';
+import 'package:nebengk/Pages/LoginScreen.dart';
 
 class SplashScreen extends StatelessWidget {
   @override
@@ -32,13 +33,13 @@ class SplashScreen extends StatelessWidget {
           SizedBox(
             width: 350,
             height: 350,
-            child: Image.asset("assets/images/NK.png"),
+            child: Image.asset("assets/NK.png"),
           ),
           SizedBox(height: 50),
           InkWell(
             onTap: () {
               Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => HomePage()));
+                  context, MaterialPageRoute(builder: (context) => LoginPage()));
             },
             child: Ink(
               padding: EdgeInsets.symmetric(horizontal: 80, vertical: 16),
