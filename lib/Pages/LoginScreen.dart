@@ -78,6 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                   // Navigasi ke halaman pendaftaran (Register)
                   Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationPage()));
                 },
+                
                 child: Text('Register'),
               ),
               TextButton(

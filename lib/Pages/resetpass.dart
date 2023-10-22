@@ -21,8 +21,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       setState(() {
         resetStatus = 'Tautan reset password telah dikirim ke email Anda.';
       });
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
       
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
+
     } on FirebaseAuthException catch (e) {
       // Tangani kesalahan reset password
       setState(() {
