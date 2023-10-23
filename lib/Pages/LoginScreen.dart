@@ -51,6 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                 controller: emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
+                  prefixIcon: Icon(Icons.email),
                 ),
               ),
               SizedBox(height: 20),
@@ -58,6 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                 controller: passwordController,
                 decoration: InputDecoration(
                   labelText: 'Password',
+                  prefixIcon: Icon(Icons.lock),
                 ),
                 obscureText: true,
               ),
