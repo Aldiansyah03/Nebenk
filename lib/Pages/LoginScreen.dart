@@ -15,25 +15,26 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
 
   void submit(BuildContext context) async {
-  try {
-    final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: emailController.text,
-      password: passwordController.text,
-    );
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
-  } on FirebaseAuthException catch (e) {
-    if (e.code == 'user-not-found') {
-      // Email tidak ditemukan, berikan pesan kesalahan
-      print('Email tidak ditemukan. Silakan daftar terlebih dahulu.');
-    } else if (e.code == 'wrong-password') {
-      // Kata sandi salah, berikan pesan kesalahan
-      print('Kata sandi salah. Silakan coba lagi.');
-    } else {
-      // Kesalahan umum lainnya, berikan pesan kesalahan umum
-      print('Terjadi kesalahan saat login: ${e.code}');
+    try {
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => HomePage()));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        // Email tidak ditemukan, berikan pesan kesalahan
+        print('Email tidak ditemukan. Silakan daftar terlebih dahulu.');
+      } else if (e.code == 'wrong-password') {
+        // Kata sandi salah, berikan pesan kesalahan
+        print('Kata sandi salah. Silakan coba lagi.');
+      } else {
+        // Kesalahan umum lainnya, berikan pesan kesalahan umum
+        print('Terjadi kesalahan saat login: ${e.code}');
+      }
     }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +48,29 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Silahkan Login Untuk Melanjutkan",
+                    style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                  ),
+                ],
+              ),
+              SizedBox(height: 30),
               TextField(
                 controller: emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
+                  hintText: 'Masukkan email',
+                  filled: true,
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   prefixIcon: Icon(Icons.email),
                 ),
               ),
@@ -59,6 +79,12 @@ class _LoginPageState extends State<LoginPage> {
                 controller: passwordController,
                 decoration: InputDecoration(
                   labelText: 'Password',
+                  hintText: "Masukkan password",
+                  filled: true,
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   prefixIcon: Icon(Icons.lock),
                 ),
                 obscureText: true,
@@ -68,9 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () {
                   submit(context);
 
-
                   // Setelah login berhasil, navigasikan ke halaman utama
-                 
                 },
                 child: Text('Login'),
               ),
@@ -78,9 +102,11 @@ class _LoginPageState extends State<LoginPage> {
               TextButton(
                 onPressed: () {
                   // Navigasi ke halaman pendaftaran (Register)
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => RegistrationPage()));
                 },
-                
                 child: Text('Register'),
               ),
               TextButton(

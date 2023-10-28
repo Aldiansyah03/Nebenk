@@ -15,16 +15,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Future<void> _registerUser() async {
     if (_formKey.currentState!.validate()) {
       try {
-        UserCredential userCredential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-              email: _emailController.text.trim(),
-              password: _passwordController.text.trim(),
-            );
+        UserCredential userCredential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        );
         print("SUKSES");
 
         // Navigasi ke halaman masuk setelah pendaftaran berhasil.
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => LoginPage()));
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => LoginPage()));
       } on FirebaseAuthException catch (e) {
         if (e.code == 'email-already-in-use') {
           // Menampilkan pesan kesalahan jika email sudah terdaftar.
@@ -32,15 +32,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: Text('Akun sudah ada'),
-                content: Text(
-                  'Email ini sudah terdaftar. Silakan gunakan email lain atau masuk dengan email ini.'),
+                title: const Text('Akun sudah ada'),
+                content: const Text(
+                    'Email ini sudah terdaftar. Silakan gunakan email lain atau masuk dengan email ini.'),
                 actions: [
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text('Tutup'),
+                    child: const Text('Tutup'),
                   ),
                 ],
               );
@@ -61,7 +61,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Registrasi'),
+        title: const Text('Registrasi'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -70,14 +70,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 'Silahkan Mendaftar Akun',
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               TextFormField(
                 controller: _emailController,
                 validator: (value) {
@@ -94,9 +94,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
+                  prefixIcon: const Icon(Icons.email),
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               TextFormField(
                 controller: _passwordController,
                 obscureText: true,
@@ -114,9 +115,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
+                  prefixIcon: const Icon(Icons.lock),
                 ),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: _registerUser,
                 style: ElevatedButton.styleFrom(
@@ -124,9 +126,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   elevation: 0,
-                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 100),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 100),
                 ),
-                child: Text('Daftar'),
+                child: const Text('Daftar'),
               ),
             ],
           ),
