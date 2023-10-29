@@ -1,6 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:nebengk/Pages/HomePage.dart';
 import 'package:nebengk/Pages/register.dart';
 import 'package:nebengk/Pages/resetpass.dart';
@@ -24,15 +23,31 @@ class _LoginPageState extends State<LoginPage> {
           context, MaterialPageRoute(builder: (context) => HomePage()));
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        // Email tidak ditemukan, berikan pesan kesalahan
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content:
+                Text('Email tidak ditemukan. Silakan daftar terlebih dahulu.'),
+          ),
+        );
         print('Email tidak ditemukan. Silakan daftar terlebih dahulu.');
       } else if (e.code == 'wrong-password') {
-        // Kata sandi salah, berikan pesan kesalahan
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Kata sandi salah. Silakan coba lagi.'),
+            duration: Duration(seconds: 3),
+          ),
+        );
         print('Kata sandi salah. Silakan coba lagi.');
       } else {
-        // Kesalahan umum lainnya, berikan pesan kesalahan umum
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Terjadi kesalahan saat login: ${e.message}'),
+          ),
+        );
         print('Terjadi kesalahan saat login: ${e.code}');
       }
+    } catch (e) {
+      print('Error: $e');
     }
   }
 
@@ -42,82 +57,81 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         title: Text('Login'),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "Silahkan Login Untuk Melanjutkan",
-                    style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
-                ],
-              ),
-              SizedBox(height: 30),
-              TextField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  hintText: 'Masukkan email',
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  prefixIcon: Icon(Icons.email),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Silahkan Login Untuk Melanjutkan",
+                      style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
+                  ],
                 ),
-              ),
-              SizedBox(height: 20),
-              TextField(
-                controller: passwordController,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  hintText: "Masukkan password",
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                SizedBox(height: 30),
+                TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    hintText: 'Masukkan email',
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    prefixIcon: Icon(Icons.email),
                   ),
-                  prefixIcon: Icon(Icons.lock),
                 ),
-                obscureText: true,
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  submit(context);
-
-                  // Setelah login berhasil, navigasikan ke halaman utama
-                },
-                child: Text('Login'),
-              ),
-              SizedBox(height: 20),
-              TextButton(
-                onPressed: () {
-                  // Navigasi ke halaman pendaftaran (Register)
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => RegistrationPage()));
-                },
-                child: Text('Register'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ResetPasswordPage(),
-                  ));
-                },
-                child: Text('Lupa Kata Sandi'),
-              ),
-            ],
+                SizedBox(height: 20),
+                TextField(
+                  controller: passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    hintText: "Masukkan password",
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    prefixIcon: Icon(Icons.lock),
+                  ),
+                  obscureText: true,
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    submit(context);
+                  },
+                  child: Text('Login'),
+                ),
+                SizedBox(height: 20),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RegistrationPage()));
+                  },
+                  child: Text('Register'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ResetPasswordPage(),
+                    ));
+                  },
+                  child: Text('Lupa Kata Sandi'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

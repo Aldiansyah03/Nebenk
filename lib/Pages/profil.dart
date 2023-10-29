@@ -21,7 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             CircleAvatar(
               radius: 100,
-              child: Image.asset("assets/icons/profil.png"),
+              child: Image.asset("assets/profil.png"),
             ),
             itemProfile('Nama', 'Muhammad Aldiansyah', CupertinoIcons.person),
             const SizedBox(height: 10),

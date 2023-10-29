@@ -22,12 +22,20 @@ class _RegistrationPageState extends State<RegistrationPage> {
         );
         print("SUKSES");
 
+        // Menampilkan SnackBar setelah pendaftaran berhasil.
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                'Selamat Anda telah membuat akun Nebengk, silahkan login dengan akun yang telah dibuat'),
+          ),
+        );
+
         // Navigasi ke halaman masuk setelah pendaftaran berhasil.
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => LoginPage()));
       } on FirebaseAuthException catch (e) {
+        // Penanganan kesalahan saat mendaftar
         if (e.code == 'email-already-in-use') {
-          // Menampilkan pesan kesalahan jika email sudah terdaftar.
           showDialog(
             context: context,
             builder: (context) {
@@ -94,7 +102,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  prefixIcon: const Icon(Icons.email),
+                  prefixIcon: Icon(Icons.email),
                 ),
               ),
               const SizedBox(height: 30),
@@ -115,7 +123,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  prefixIcon: const Icon(Icons.lock),
+                  prefixIcon: Icon(Icons.lock),
                 ),
               ),
               const SizedBox(height: 16.0),
@@ -126,8 +134,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   elevation: 0,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 100),
+                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 100),
                 ),
                 child: const Text('Daftar'),
               ),
