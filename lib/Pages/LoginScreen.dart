@@ -41,10 +41,10 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Terjadi kesalahan saat login: ${e.message}'),
+            content: Text('Kata sandi salah. Silakan coba lagi.'),
           ),
         );
-        print('Terjadi kesalahan saat login: ${e.code}');
+        print('Kata sandi salah. Silakan coba lagi.');
       }
     } catch (e) {
       print('Error: $e');

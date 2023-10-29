@@ -1,43 +1,52 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlng/latlng.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-void main() => runApp(MyApp());
+class MapSample extends StatefulWidget {
+  const MapSample({super.key});
 
-class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'TomTom Map Demo',
-      home: HomeScreen(),
-    );
-  }
+  State<MapSample> createState() => MapSampleState();
 }
 
-class HomeScreen extends StatelessWidget {
-  final String apiKey = 'tw9bp01ljmUiAykffKcxrcGZDnOpGrbk';
+class MapSampleState extends State<MapSample> {
+  Completer<GoogleMapController> _controller = Completer();
+  Set<Marker> _markers = {};
 
   @override
   Widget build(BuildContext context) {
-    final tomtomHQ = LatLng(52.376372, 4.908066);
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text('TomTom Map'),
-      ),
-      body: FlutterMap(
-        options: MapOptions(
-          center: tomtomHQ,
-          zoom: 13.0,
+      body: GoogleMap(
+        mapType: MapType.normal,
+        initialCameraPosition: CameraPosition(
+          target: LatLng(-1.267530, 116.828873),
+          zoom: 14,
         ),
-        layers: [
-          TileLayerOptions(
-            urlTemplate:
-                'https://api.tomtom.com/map/1/tile/basic/main/{z}/{x}/{y}.png?key=$apiKey',
-            subdomains: ['a', 'b', 'c'],
-          ),
-        ],
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
+        markers: _markers,
+        onTap: _addMarker,
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          // Action when the floating action button is pressed
+          // You can add your custom logic here for navigation or any other action.
+        },
+        label: const Text('Navigate'),
+        icon: const Icon(Icons.navigation),
       ),
     );
+  }
+
+  void _addMarker(LatLng latLng) {
+    setState(() {
+      _markers.clear();
+      _markers.add(Marker(
+        markerId: MarkerId('Destination'),
+        position: latLng,
+      ));
+    });
   }
 }

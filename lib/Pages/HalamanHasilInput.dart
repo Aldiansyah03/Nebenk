@@ -94,17 +94,20 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                     SizedBox(height: 15),
                     TextFormField(
                       controller: biayaPerjalananController,
-                      decoration: InputDecoration(labelText: 'Keterangan kendaraan'),
+                      decoration:
+                          InputDecoration(labelText: 'Keterangan kendaraan'),
                     ),
                     SizedBox(height: 15),
                     TextFormField(
                       controller: batasWaktuPemesananController,
-                      decoration: InputDecoration(labelText: 'Biaya patungan/orang'),
+                      decoration:
+                          InputDecoration(labelText: 'Biaya patungan/orang'),
                     ),
                     SizedBox(height: 15),
                     TextFormField(
                       controller: detailPerjalananController,
-                      decoration: InputDecoration(labelText: 'Detail Perjalanan'),
+                      decoration:
+                          InputDecoration(labelText: 'Detail Perjalanan'),
                     ),
                     SizedBox(height: 15),
                     InkWell(
@@ -130,7 +133,8 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                             style: TextStyle(fontSize: 20),
                           ),
                           SizedBox(width: 10),
-                          Icon(Icons.edit), // Ikona edit jika pengguna ingin mengubah tanggal
+                          Icon(Icons
+                              .edit), // Ikona edit jika pengguna ingin mengubah tanggal
                         ],
                       ),
                     ),
@@ -156,7 +160,8 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                             style: TextStyle(fontSize: 20),
                           ),
                           SizedBox(width: 10),
-                          Icon(Icons.edit), // Ikona edit jika pengguna ingin mengubah jam
+                          Icon(Icons
+                              .edit), // Ikona edit jika pengguna ingin mengubah jam
                         ],
                       ),
                     ),
@@ -164,7 +169,8 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                     ElevatedButton(
                       onPressed: () {
                         final snackBar = SnackBar(
-                          content: Text('Perjalanan Berhasil dibuat. Silahkan tunggu untuk pengajuan dari pengguna lain.'),
+                          content: Text(
+                              'Perjalanan Berhasil dibuat. Silahkan tunggu untuk pengajuan dari pengguna lain.'),
                         );
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         Navigator.of(context).push(
@@ -174,9 +180,12 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                               jumlahKursi: selectedSeatCount.toString(),
                               biayaPerjalanan: biayaPerjalananController.text,
                               detailPerjalanan: detailPerjalananController.text,
-                              batasWaktuPemesanan: batasWaktuPemesananController.text,
-                              tanggalPerjalanan: "${selectedDate.toLocal()}".split(' ')[0], // Tanggal perjalanan
-                              jamKeberangkatan: selectedTime.format(context), // Jam keberangkatan
+                              batasWaktuPemesanan:
+                                  batasWaktuPemesananController.text,
+                              tanggalPerjalanan: "${selectedDate.toLocal()}"
+                                  .split(' ')[0], // Tanggal perjalanan
+                              jamKeberangkatan: selectedTime
+                                  .format(context), // Jam keberangkatan
                             ),
                           ),
                         );
@@ -185,7 +194,8 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                         primary: const Color(0xFF49648D),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 10.0),
                         child: Text(
                           'Buat perjalanan',
                           style: TextStyle(

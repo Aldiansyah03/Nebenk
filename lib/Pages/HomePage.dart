@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nebengk/Pages/HalamanHasilInput.dart';
+import 'package:nebengk/Pages/maps.dart';
 import 'package:nebengk/Pages/penumpang.dart';
 import 'package:nebengk/Pages/profil.dart';
 import 'package:nebengk/Pages/pusatbantuan.dart';
-
 
 class HomePage extends StatelessWidget {
   @override
@@ -18,7 +18,10 @@ class HomePage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.person),
             onPressed: () {
-              // Implementasi tindakan ketika tombol pesan ditekan
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MapSample()),
+              ); // Implementasi tindakan ketika tombol pesan ditekan
             },
           ),
         ],
@@ -43,12 +46,11 @@ class HomePage extends StatelessWidget {
                         Icon(
                           Icons.edit,
                           color: Colors.white,
-                          size: 20,
+                          size: 10,
                         ),
                       ],
                     ),
                   ),
-                    
                   SizedBox(height: 10),
                   Text(
                     'Aldiansyah',
@@ -74,11 +76,11 @@ class HomePage extends StatelessWidget {
               onTap: () {
                 // Navigate to the user profile page when "Akun" is tapped.
 
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
-
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ProfilePage()));
 
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()));
               },
             ),
             ListTile(
@@ -89,7 +91,6 @@ class HomePage extends StatelessWidget {
 
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => PusatBantuan()));
-
               },
             ),
             ListTile(
@@ -123,8 +124,8 @@ class HomePage extends StatelessWidget {
             SizedBox(height: 20),
             InkWell(
               onTap: () {
-
-                Navigator.push(context, MaterialPageRoute(builder: (context) => BeriTumpangan()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => BeriTumpangan()));
 
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => BeriTumpangan()));
@@ -168,8 +169,8 @@ class HomePage extends StatelessWidget {
             SizedBox(height: 20),
             InkWell(
               onTap: () {
-
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Penumpang()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Penumpang()));
 
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Penumpang()));
