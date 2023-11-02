@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:nebengk/Pages/LoginScreen.dart';
@@ -22,17 +24,28 @@ class _RegistrationPageState extends State<RegistrationPage> {
         );
         await userCredential.user!.sendEmailVerification();
 
-        // Menampilkan SnackBar setelah pendaftaran berhasil.
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-                'email untuk verifikasi akun telah dikirimkan kealamat yang anda daftarkan. silahkan lakukan verifikasi,kemudian login dengan akun anda.'),
-          ),
-        );
+        // Menampilkan PopUp setelah pendaftaran berhasil.
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text("Verifikasi Email"),
+                content: Text(
+                    "Email untuk verifikasi akun telah dikirimkan ke alamat yang anda daftarkan. silahkan lakukan verifikasi,kemudian login dengan akun anda."),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => LoginPage()));
+                    },
+                    child: Text('Tutup'),
+                  ),
+                ],
+              );
+            });
 
-        // Navigasi ke halaman masuk setelah pendaftaran berhasil.
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => LoginPage()));
+        // Navigasi ke halaman masuk setelah pendaftaran berhasil
       } on FirebaseAuthException catch (e) {
         // Penanganan kesalahan saat mendaftar
         if (e.code == 'email-already-in-use') {
@@ -102,7 +115,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  prefixIcon: Icon(Icons.email),
+                  prefixIcon: const Icon(Icons.email),
                 ),
               ),
               const SizedBox(height: 30),
@@ -123,7 +136,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  prefixIcon: Icon(Icons.lock),
+                  prefixIcon: const Icon(Icons.lock),
                 ),
               ),
               const SizedBox(height: 16.0),
@@ -134,7 +147,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   elevation: 0,
-                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 100),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 100),
                 ),
                 child: const Text('Daftar'),
               ),
