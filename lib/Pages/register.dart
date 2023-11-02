@@ -20,13 +20,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
-        print("SUKSES");
+        await userCredential.user!.sendEmailVerification();
 
         // Menampilkan SnackBar setelah pendaftaran berhasil.
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-                'Selamat Anda telah membuat akun Nebengk, silahkan login dengan akun yang telah dibuat'),
+                'email untuk verifikasi akun telah dikirimkan kealamat yang anda daftarkan. silahkan lakukan verifikasi,kemudian login dengan akun anda.'),
           ),
         );
 
