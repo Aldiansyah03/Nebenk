@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
         showDialog(
             context: context,
             builder: (context) {
-              return AlertDialog(
+              return const AlertDialog(
                 title: Text("akun anda belum diverifikasi"),
               );
             });
@@ -34,26 +34,36 @@ class _LoginPageState extends State<LoginPage> {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content:
                 Text('Email tidak ditemukan. Silakan daftar terlebih dahulu.'),
           ),
         );
         print('Email tidak ditemukan. Silakan daftar terlebih dahulu.');
-      } else if (e.code == 'wrong-password') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Kata sandi salah. Silakan coba lagi.'),
-            duration: Duration(seconds: 3),
-          ),
-        );
-        print('Kata sandi salah. Silakan coba lagi.');
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Kata sandi salah. Silakan coba lagi.'),
-          ),
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Kata Sandi Salah"),
+              content: const Text(
+                  "Kata Sandi yang anda masukan salah, silahkan coba lagi"),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Tutup'),
+                ),
+              ],
+            );
+          },
         );
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   const SnackBar(
+        //     content: Text('Kata sandi salah. Silakan coba lagi.'),
+        //   ),
+        // );
         print('Kata sandi salah. Silakan coba lagi.');
       }
     } catch (e) {
@@ -65,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: const Text('Login'),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -74,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Column(
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
@@ -86,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 TextField(
                   controller: emailController,
                   decoration: InputDecoration(
@@ -97,10 +107,10 @@ class _LoginPageState extends State<LoginPage> {
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    prefixIcon: Icon(Icons.email),
+                    prefixIcon: const Icon(Icons.email),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextField(
                   controller: passwordController,
                   decoration: InputDecoration(
@@ -111,18 +121,18 @@ class _LoginPageState extends State<LoginPage> {
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    prefixIcon: Icon(Icons.lock),
+                    prefixIcon: const Icon(Icons.lock),
                   ),
                   obscureText: true,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     submit(context);
                   },
-                  child: Text('Login'),
+                  child: const Text('Login'),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextButton(
                   onPressed: () {
                     Navigator.push(
@@ -130,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                         MaterialPageRoute(
                             builder: (context) => RegistrationPage()));
                   },
-                  child: Text('Register'),
+                  child: const Text('Register'),
                 ),
                 TextButton(
                   onPressed: () {
@@ -138,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                       builder: (context) => ResetPasswordPage(),
                     ));
                   },
-                  child: Text('Lupa Kata Sandi'),
+                  child: const Text('Lupa Kata Sandi'),
                 ),
               ],
             ),
