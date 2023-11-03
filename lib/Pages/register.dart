@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, unused_field
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,8 +11,10 @@ class RegistrationPage extends StatefulWidget {
 
 class _RegistrationPageState extends State<RegistrationPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
 
   Future<void> _registerUser() async {
     if (_formKey.currentState!.validate()) {
@@ -100,6 +102,26 @@ class _RegistrationPageState extends State<RegistrationPage> {
               ),
               const SizedBox(height: 30),
               TextFormField(
+                controller: _nameController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Nama tidak boleh kosong';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  labelText: 'Nama',
+                  hintText: 'Masukkan Nama Anda',
+                  filled: true,
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  prefixIcon: const Icon(Icons.person),
+                ),
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
                 controller: _emailController,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -118,7 +140,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   prefixIcon: const Icon(Icons.email),
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               TextFormField(
                 controller: _passwordController,
                 obscureText: true,
@@ -142,7 +164,27 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   prefixIcon: const Icon(Icons.lock),
                 ),
               ),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 20),
+              TextFormField(
+                controller: _phoneController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Nomor Telepon tidak boleh kosong';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  labelText: 'Nomor Telepon',
+                  hintText: 'Masukkan Nomor Telepon Anda',
+                  filled: true,
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  prefixIcon: const Icon(Icons.phone),
+                ),
+              ),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _registerUser,
                 style: ElevatedButton.styleFrom(
