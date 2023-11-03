@@ -1,26 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nebengk/Pages/HalamanHasilInput.dart';
+import 'package:nebengk/Pages/LoginScreen.dart';
 import 'package:nebengk/Pages/maps.dart';
 import 'package:nebengk/Pages/penumpang.dart';
 import 'package:nebengk/Pages/profil.dart';
 import 'package:nebengk/Pages/pusatbantuan.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFD9D9D9),
+      backgroundColor: const Color(0xFFD9D9D9),
       appBar: AppBar(
-        backgroundColor: Color(0xFF3668B2),
-        title: Text("NeBengK"),
+        backgroundColor: const Color(0xFF3668B2),
+        title: const Text("NeBengK"),
         actions: [
           IconButton(
-            icon: Icon(Icons.person),
+            icon: const Icon(Icons.person),
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MapSample()),
+                MaterialPageRoute(builder: (context) => const MapSample()),
               ); // Implementasi tindakan ketika tombol pesan ditekan
             },
           ),
@@ -31,7 +33,7 @@ class HomePage extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color(0xFF3668B2),
               ),
               child: Column(
@@ -43,7 +45,7 @@ class HomePage extends StatelessWidget {
                     child: Column(
                       children: [
                         Image.asset("assets/profil.png"),
-                        Icon(
+                        const Icon(
                           Icons.edit,
                           color: Colors.white,
                           size: 10,
@@ -51,16 +53,16 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: 10),
-                  Text(
+                  const SizedBox(height: 10),
+                  const Text(
                     'Aldiansyah',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
                     ),
                   ),
-                  SizedBox(height: 5),
-                  Text(
+                  const SizedBox(height: 5),
+                  const Text(
                     'Aldiansyah0302@gmail.com',
                     style: TextStyle(
                       color: Colors.white,
@@ -71,39 +73,48 @@ class HomePage extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text('Akun'),
+              leading: const Icon(Icons.account_circle),
+              title: const Text('Akun'),
               onTap: () {
                 // Navigate to the user profile page when "Akun" is tapped.
 
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ProfilePage()));
 
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ProfilePage()));
               },
             ),
             ListTile(
-              leading: Icon(Icons.help),
-              title: Text('Pusat Bantuan'),
+              leading: const Icon(Icons.help),
+              title: const Text('Pusat Bantuan'),
               onTap: () {
                 // Aksi yang ingin Anda lakukan ketika "Pusat Bantuan" diklik
 
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => PusatBantuan()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const PusatBantuan()));
               },
             ),
             ListTile(
-              leading: Icon(Icons.support),
-              title: Text('Dukungan'),
-              onTap: () {
-                // Aksi yang ingin Anda lakukan ketika "Dukungan" diklik
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
-              onTap: () {
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
+              onTap: () async {
+                try {
+                  await FirebaseAuth.instance.signOut();
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => LoginPage(),
+                    ),
+                  );
+                } catch (e) {
+                  print("Error Logout: $e");
+                }
                 // Aksi yang ingin Anda lakukan ketika "Logout" diklik
               },
             ),
@@ -114,14 +125,14 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               "Ingin jadi apa anda hari ini?",
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             InkWell(
               onTap: () {
                 Navigator.push(context,
@@ -145,7 +156,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Column(
+                child: const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
@@ -166,7 +177,7 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             InkWell(
               onTap: () {
                 Navigator.push(context,
@@ -190,7 +201,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Column(
+                child: const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
