@@ -32,15 +32,45 @@ class _LoginPageState extends State<LoginPage> {
             });
       }
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content:
-                Text('Email tidak ditemukan. Silakan daftar terlebih dahulu.'),
-          ),
+      if (e.code == 'invalid-login-credentials') {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text("Kesalahan Login"),
+                content: const Text(
+                    "Email atau Password yang anda masukan salah, silahkan coba lagi"),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Tutup"),
+                  )
+                ],
+              );
+            });
+      } else if (e.code == 'user-not-found') {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Email Tidak Terdaftar"),
+              content: const Text(
+                  "Email yang anda masukan tidak terdaftar, silahkan daftar terlebih dahulu"),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("Tutup"),
+                )
+              ],
+            );
+          },
         );
         print('Email tidak ditemukan. Silakan daftar terlebih dahulu.');
-      } else {
+      } else if (e.code == 'wrong-password') {
         showDialog(
           context: context,
           builder: (context) {
@@ -59,12 +89,27 @@ class _LoginPageState extends State<LoginPage> {
             );
           },
         );
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   const SnackBar(
-        //     content: Text('Kata sandi salah. Silakan coba lagi.'),
-        //   ),
-        // );
         print('Kata sandi salah. Silakan coba lagi.');
+      } else if (e.code == 'too-many-requests') {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text("Terlalu Banyak Percobaan"),
+                content: const Text(
+                    "Anda telah mencoba login terlalu banyak, silahkan coba lagi nanti"),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Tutup'),
+                  ),
+                ],
+              );
+            });
+      } else {
+        print('Error : ${e.code} - ${e.message}');
       }
     } catch (e) {
       print('Error: $e');
