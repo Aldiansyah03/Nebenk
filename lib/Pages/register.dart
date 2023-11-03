@@ -29,8 +29,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: Text("Verifikasi Email"),
-                content: Text(
+                title: const Text("Verifikasi Email"),
+                content: const Text(
                     "Email untuk verifikasi akun telah dikirimkan ke alamat yang anda daftarkan. silahkan lakukan verifikasi,kemudian login dengan akun anda."),
                 actions: <Widget>[
                   TextButton(
@@ -39,7 +39,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) => LoginPage()));
                     },
-                    child: Text('Tutup'),
+                    child: const Text('Tutup'),
                   ),
                 ],
               );
@@ -125,6 +125,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Password tidak boleh kosong';
+                  }
+                  if (value.length < 8) {
+                    return 'Password harus lebih dari 8 karakter';
                   }
                   return null;
                 },
