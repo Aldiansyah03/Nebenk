@@ -78,15 +78,8 @@ class HomePage extends StatelessWidget {
               onTap: () {
                 // Navigate to the user profile page when "Akun" is tapped.
 
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ProfilePage()));
-
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ProfilePage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()));
               },
             ),
             ListTile(
