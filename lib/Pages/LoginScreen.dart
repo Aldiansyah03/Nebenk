@@ -13,6 +13,10 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  bool isEmailValid(String email) {
+    return RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
+  }
+
   void submit(BuildContext context) async {
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -40,6 +44,24 @@ class _LoginPageState extends State<LoginPage> {
                 title: const Text("Kesalahan Login"),
                 content: const Text(
                     "Email atau Password yang anda masukan salah, silahkan coba lagi"),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Tutup"),
+                  )
+                ],
+              );
+            });
+      } else if (e.code == 'invalid-email') {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text("Format Email Salah "),
+                content: const Text(
+                    "Email yang anda masukan salah, silahkan coba lagi"),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
