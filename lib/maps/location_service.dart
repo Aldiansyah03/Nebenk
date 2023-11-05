@@ -3,8 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 class LocationService {
-  final String key =
-      'AIzaSyDUxErMvsL-JYPxMw08E8PVL1SCno9pixI'; // Pastikan untuk mengganti 'API_KEY' dengan kunci API sebenarnya Anda
+  final String key = 'AIzaSyDUxErMvsL-JYPxMw08E8PVL1SCno9pixI';
 
   Future<String> getPlaceId(String input) async {
     try {

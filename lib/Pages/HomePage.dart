@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const MapSample()),
+                MaterialPageRoute(builder: (context) => MapSample()),
               ); // Implementasi tindakan ketika tombol pesan ditekan
             },
           ),
