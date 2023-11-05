@@ -1,15 +1,60 @@
+// ignore_for_file: non_constant_identifier_names, library_private_types_in_public_api, unused_local_variable
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nebengk/Pages/profiledit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
-
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  User? currentUser;
+  String nama = '';
+  String nomor_telepon = '';
+  String email = '';
+  String alamat = '';
+
+  @override
+  void initState() {
+    super.initState();
+    // user = FirebaseAuth.instance.currentUser;
+    getData();
+  }
+
+  Future<void> getData() async {
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    QuerySnapshot snapshot = await firestore
+        .collection('users')
+        .where('email', isEqualTo: currentUser!.email)
+        .get();
+    for (QueryDocumentSnapshot document in snapshot.docs) {
+      print(document.data());
+      ;
+    }
+    currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser != null) {
+      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+          // final userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser!.uid)
+          .get();
+
+      if (userSnapshot.exists) {
+        Map<String, dynamic> userData =
+            userSnapshot.data() as Map<String, dynamic>;
+        String? nama = userData['nama'];
+        String? nomor_telepon = userData['nomor_telepon'];
+        String? email = userData['email'];
+        String? alamat = userData['alamat'];
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,16 +66,18 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             CircleAvatar(
               radius: 100,
-              child: Image.asset("assets/profil.png"),
+              child: currentUser?.photoURL != null
+                  ? Image.network(currentUser!.photoURL!)
+                  : const Icon(Icons.person),
             ),
-            itemProfile('Nama', 'Muhammad Aldiansyah', CupertinoIcons.person),
+            _buildProfileitem('Nama', nama, CupertinoIcons.person),
             const SizedBox(height: 10),
-            itemProfile('Nomor Telepon', '085266127946', CupertinoIcons.phone),
+            _buildProfileitem(
+                'Nomor Telepon', nomor_telepon, CupertinoIcons.phone),
             const SizedBox(height: 10),
-            itemProfile(
-                'Alamat', 'Sepinggan, Balikpapan', CupertinoIcons.location),
+            _buildProfileitem('Alamat', alamat, CupertinoIcons.location),
             const SizedBox(height: 10),
-            itemProfile('Email', 'aldiansyah@gmail.com', CupertinoIcons.mail),
+            _buildProfileitem('Email', email, CupertinoIcons.mail),
             const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
@@ -39,22 +86,23 @@ class _ProfilePageState extends State<ProfilePage> {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => EditProfile()));
                   },
-                  style: ElevatedButton.styleFrom(padding: EdgeInsets.all(15)),
+                  style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.all(15)),
                   child: const Text('Edit Profil')),
             )
           ],
         ));
   }
 
-  itemProfile(String title, String subtitle, IconData icon) {
+  Widget _buildProfileitem(String title, String subtitle, IconData icon) {
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
-                offset: Offset(0, 5),
-                color: Color.fromARGB(255, 50, 47, 135).withOpacity(.2),
+                offset: const Offset(0, 5),
+                color: const Color.fromARGB(255, 50, 47, 135).withOpacity(.2),
                 spreadRadius: 2,
                 blurRadius: 10)
           ]),
