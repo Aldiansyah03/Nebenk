@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:nebengk/Pages/LoginScreen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegistrationPage extends StatefulWidget {
   @override
@@ -15,6 +16,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
 
   Future<void> _registerUser() async {
     if (_formKey.currentState!.validate()) {
@@ -25,6 +27,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
           password: _passwordController.text.trim(),
         );
         await userCredential.user!.sendEmailVerification();
+
+        // Memambahkan data ke firestore
+        FirebaseFirestore firestore = FirebaseFirestore.instance;
+        CollectionReference users = firestore.collection('users');
+
+        await users.add({
+          'nama': _nameController.text.trim(),
+          'email': _emailController.text.trim(),
+          'nomor_telepon': _phoneController.text.trim(),
+          'alamat': _addressController.text.trim(),
+        });
 
         // Menampilkan PopUp setelah pendaftaran berhasil.
         showDialog(
@@ -182,6 +195,26 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   prefixIcon: const Icon(Icons.phone),
+                ),
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                controller: _addressController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Alamat tidak boleh kosong';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  labelText: 'Alamat',
+                  hintText: 'Masukkan Alamat Anda',
+                  filled: true,
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  prefixIcon: const Icon(Icons.location_on),
                 ),
               ),
               const SizedBox(height: 20),
