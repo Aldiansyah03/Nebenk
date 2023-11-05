@@ -97,11 +97,14 @@ class _LoginPageState extends State<LoginPage> {
               return AlertDialog(
                 title: const Text("Terlalu Banyak Percobaan"),
                 content: const Text(
-                    "Anda telah mencoba login terlalu banyak, silahkan coba lagi nanti"),
+                    "Anda telah mencoba login terlalu banyak, silahkan Reset Password Anda"),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => ResetPasswordPage())));
                     },
                     child: const Text('Tutup'),
                   ),
