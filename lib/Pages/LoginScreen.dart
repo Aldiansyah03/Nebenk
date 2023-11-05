@@ -54,24 +54,24 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               );
             });
-      } else if (e.code == 'invalid-email') {
-        showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: const Text("Format Email Salah "),
-                content: const Text(
-                    "Email yang anda masukan salah, silahkan coba lagi"),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text("Tutup"),
-                  )
-                ],
-              );
-            });
+        // } else if (e.code == 'invalid-email') {
+        //   showDialog(
+        //       context: context,
+        //       builder: (context) {
+        //         return AlertDialog(
+        //           title: const Text("Format Email Salah "),
+        //           content: const Text(
+        //               "Email yang anda masukan salah, silahkan coba lagi"),
+        //           actions: <Widget>[
+        //             TextButton(
+        //               onPressed: () {
+        //                 Navigator.of(context).pop();
+        //               },
+        //               child: const Text("Tutup"),
+        //             )
+        //           ],
+        //         );
+        //       });
       } else if (e.code == 'user-not-found') {
         showDialog(
           context: context,
@@ -167,8 +167,14 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
                 const SizedBox(height: 30),
-                TextField(
+                TextFormField(
                   controller: emailController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Email tidak boleh kosong';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     labelText: 'Email',
                     hintText: 'Masukkan email',
@@ -181,8 +187,14 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                TextField(
+                TextFormField(
                   controller: passwordController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Password tidak boleh kosong';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     labelText: 'Password',
                     hintText: "Masukkan password",
