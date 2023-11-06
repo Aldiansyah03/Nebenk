@@ -23,13 +23,13 @@ class Beritumpangan1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFD9D9D9),
+      backgroundColor: const Color(0xFFD9D9D9),
       appBar: AppBar(
-        backgroundColor: Color(0xFF3668B2),
-        title: Text("Detail Perjalanan"),
+        backgroundColor: const Color(0xFF3668B2),
+        title: const Text("Detail Perjalanan"),
         actions: [
           IconButton(
-            icon: Icon(Icons.message),
+            icon: const Icon(Icons.message),
             onPressed: () {
               // Implementasi tindakan ketika tombol pesan ditekan
             },
@@ -37,7 +37,7 @@ class Beritumpangan1 extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -48,7 +48,7 @@ class Beritumpangan1 extends StatelessWidget {
                 Container(
                   width: 50.0,
                   height: 50.0,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       fit: BoxFit.cover,
@@ -60,11 +60,12 @@ class Beritumpangan1 extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                         "Aldiansyah                                            ",
                         style: TextStyle(fontSize: 16.0)),
                     Text("Biaya $batasWaktuPemesanan",
-                        style: TextStyle(fontSize: 14.0, color: Colors.grey)),
+                        style: const TextStyle(
+                            fontSize: 14.0, color: Colors.grey)),
                   ],
                 ),
               ],
@@ -78,7 +79,7 @@ class Beritumpangan1 extends StatelessWidget {
                   children: [
                     Text(
                         "$tanggalPerjalanan - $jamKeberangkatan - $jumlahKursi kursi",
-                        style: TextStyle(fontSize: 16.0))
+                        style: const TextStyle(fontSize: 16.0))
                   ],
                 ),
                 Icon(
@@ -89,10 +90,10 @@ class Beritumpangan1 extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
 
             // Bagian 2 - Titik Awal Keberangkatan dan Tujuan
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 // Bagian 2a - Titik Awal Keberangkatan
@@ -113,12 +114,12 @@ class Beritumpangan1 extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
 
             // Bagian 3 - Info Pengemudi dan Kendaraan
             Container(
               color: Colors.white,
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -132,16 +133,19 @@ class Beritumpangan1 extends StatelessWidget {
                         color: Colors.blue,
                       ),
                       Text("   $biayaPerjalanan",
-                          style: TextStyle(fontSize: 16.0, color: Colors.blue)),
+                          style: const TextStyle(
+                              fontSize: 16.0, color: Colors.blue)),
                     ],
                   ),
-                  SizedBox(height: 10.0),
+                  const SizedBox(height: 10.0),
                   Row(
                     children: [
-                      Icon(Icons.error_outline, size: 20.0, color: Colors.blue),
+                      const Icon(Icons.error_outline,
+                          size: 20.0, color: Colors.blue),
                       Text(
                         "   $detailPerjalanan",
-                        style: TextStyle(fontSize: 16.0, color: Colors.blue),
+                        style:
+                            const TextStyle(fontSize: 16.0, color: Colors.blue),
                       ),
                     ],
                   ),

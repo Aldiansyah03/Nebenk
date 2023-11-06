@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_new, prefer_collection_literals, prefer_final_fields, prefer_const_constructors
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';

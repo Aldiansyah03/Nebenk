@@ -26,6 +26,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
+
         await userCredential.user!.sendEmailVerification();
 
         String uidString = userCredential.user!.uid;

@@ -57,10 +57,10 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             icon: const Icon(Icons.person),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MapSample()),
-              ); // Implementasi tindakan ketika tombol pesan ditekan
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => MapSample()),
+              // ); // Implementasi tindakan ketika tombol pesan ditekan
             },
           ),
         ],
@@ -210,12 +210,12 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 20),
             InkWell(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Penumpang()));
-
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Penumpang()));
-
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => Penumpang()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MapSample()),
+                );
                 // Aksi yang ingin Anda lakukan saat kotak penumpang ditekan
               },
               child: Container(
