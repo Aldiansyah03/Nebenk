@@ -28,11 +28,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
         );
         await userCredential.user!.sendEmailVerification();
 
+        String uidString = userCredential.user!.uid;
         // Memambahkan data ke firestore
         FirebaseFirestore firestore = FirebaseFirestore.instance;
         CollectionReference users = firestore.collection('users');
 
-        await users.add({
+        await users.doc(uidString).set({
           'nama': _nameController.text.trim(),
           'email': _emailController.text.trim(),
           'nomor_telepon': _phoneController.text.trim(),

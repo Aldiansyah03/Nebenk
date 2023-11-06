@@ -26,15 +26,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> getData() async {
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    QuerySnapshot snapshot = await firestore
-        .collection('users')
-        .where('email', isEqualTo: currentUser!.email)
-        .get();
-    for (QueryDocumentSnapshot document in snapshot.docs) {
-      print(document.data());
-      ;
-    }
     currentUser = FirebaseAuth.instance.currentUser;
 
     if (currentUser != null) {
@@ -47,10 +38,12 @@ class _ProfilePageState extends State<ProfilePage> {
       if (userSnapshot.exists) {
         Map<String, dynamic> userData =
             userSnapshot.data() as Map<String, dynamic>;
-        String? nama = userData['nama'];
-        String? nomor_telepon = userData['nomor_telepon'];
-        String? email = userData['email'];
-        String? alamat = userData['alamat'];
+        setState(() {
+          nama = userData['nama'];
+          nomor_telepon = userData['nomor_telepon'];
+          email = userData['email'];
+          alamat = userData['alamat'];
+        });
       }
     }
   }

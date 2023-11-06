@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nebengk/Pages/HalamanHasilInput.dart';
@@ -8,7 +9,43 @@ import 'package:nebengk/Pages/profil.dart';
 import 'package:nebengk/Pages/pusatbantuan.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  User? currentUser;
+  String displayName = '';
+  String email = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  Future<void> getData() async {
+    currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser != null) {
+      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+          // final userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser!.uid)
+          .get();
+
+      if (userSnapshot.exists) {
+        Map<String, dynamic> userData =
+            userSnapshot.data() as Map<String, dynamic>;
+        setState(() {
+          displayName = userData['nama'];
+          email = userData['email'];
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,17 +91,17 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  const Text(
-                    'Aldiansyah',
-                    style: TextStyle(
+                  Text(
+                    displayName,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 18,
                     ),
                   ),
                   const SizedBox(height: 5),
-                  const Text(
-                    'Aldiansyah0302@gmail.com',
-                    style: TextStyle(
+                  Text(
+                    email,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 14,
                     ),
