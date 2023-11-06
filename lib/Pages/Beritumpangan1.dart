@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 // import 'package:nebengk/Pages/detail_penumpang.dart';
 class Beritumpangan1 extends StatelessWidget {
   final String jenisKendaraan;
@@ -51,15 +52,19 @@ class Beritumpangan1 extends StatelessWidget {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: AssetImage('assets/profil.png'), // Ganti dengan path gambar driver
+                      image: AssetImage(
+                          'assets/profil.png'), // Ganti dengan path gambar driver
                     ),
                   ),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Aldiansyah                                            ", style: TextStyle(fontSize: 16.0)),
-                    Text("Biaya $batasWaktuPemesanan", style: TextStyle(fontSize: 14.0, color: Colors.grey)),
+                    Text(
+                        "Aldiansyah                                            ",
+                        style: TextStyle(fontSize: 16.0)),
+                    Text("Biaya $batasWaktuPemesanan",
+                        style: TextStyle(fontSize: 14.0, color: Colors.grey)),
                   ],
                 ),
               ],
@@ -68,15 +73,18 @@ class Beritumpangan1 extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("$tanggalPerjalanan - $jamKeberangkatan - $jumlahKursi kursi", style: TextStyle(fontSize: 16.0))
+                    Text(
+                        "$tanggalPerjalanan - $jamKeberangkatan - $jumlahKursi kursi",
+                        style: TextStyle(fontSize: 16.0))
                   ],
                 ),
                 Icon(
-                  jenisKendaraan == "     Mobil" ? Icons.directions_car : Icons.motorcycle,
+                  jenisKendaraan == "     Mobil"
+                      ? Icons.directions_car
+                      : Icons.motorcycle,
                   size: 40.0,
                 ),
               ],
@@ -90,14 +98,16 @@ class Beritumpangan1 extends StatelessWidget {
                 // Bagian 2a - Titik Awal Keberangkatan
                 Column(
                   children: [
-                    Text("Titik Awal Keberangkatan", style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text("Titik Awal Keberangkatan",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                     Icon(Icons.location_on, size: 10.0),
                   ],
                 ),
                 // Bagian 2b - Titik Tujuan
                 Column(
                   children: [
-                    Text("Titik Tujuan", style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text("Titik Tujuan",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                     Icon(Icons.location_on, size: 10.0),
                   ],
                 ),
@@ -106,34 +116,38 @@ class Beritumpangan1 extends StatelessWidget {
             SizedBox(height: 20.0),
 
             // Bagian 3 - Info Pengemudi dan Kendaraan
-          Container(
-            color: Colors.white,
-            padding: EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Icon(
-                      jenisKendaraan == "Mobil" ? Icons.directions_car : Icons.motorcycle,
-                      size: 20.0,
-                      color: Colors.blue,
-                    ),
-                    Text("   $biayaPerjalanan", style: TextStyle(fontSize: 16.0, color: Colors.blue)),
-                  ],
-                ),
-                SizedBox(height: 10.0),
-                Row(
-                  children: [
-                    Icon(Icons.error_outline, size: 20.0, color: Colors.blue),
-                    Text("   $detailPerjalanan", style: TextStyle(fontSize: 16.0, color: Colors.blue),
-                    ),
-                  ],
-                ),
-              ],
+            Container(
+              color: Colors.white,
+              padding: EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        jenisKendaraan == "Mobil"
+                            ? Icons.directions_car
+                            : Icons.motorcycle,
+                        size: 20.0,
+                        color: Colors.blue,
+                      ),
+                      Text("   $biayaPerjalanan",
+                          style: TextStyle(fontSize: 16.0, color: Colors.blue)),
+                    ],
+                  ),
+                  SizedBox(height: 10.0),
+                  Row(
+                    children: [
+                      Icon(Icons.error_outline, size: 20.0, color: Colors.blue),
+                      Text(
+                        "   $detailPerjalanan",
+                        style: TextStyle(fontSize: 16.0, color: Colors.blue),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-
           ],
         ),
       ),
