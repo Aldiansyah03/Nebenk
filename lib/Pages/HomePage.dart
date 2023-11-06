@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -135,16 +137,42 @@ class _HomePageState extends State<HomePage> {
               leading: const Icon(Icons.logout),
               title: const Text('Logout'),
               onTap: () async {
-                try {
-                  await FirebaseAuth.instance.signOut();
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => LoginPage(),
-                    ),
-                  );
-                } catch (e) {
-                  print("Error Logout: $e");
-                }
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text("Konfirmasi Logout"),
+                        content: const Text("Apakah Anda yakin ingin logout?"),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text("Batal"),
+                          ),
+                          TextButton(
+                            onPressed: () async {
+                              try {
+                                await FirebaseAuth.instance.signOut();
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginPage(),
+                                  ),
+                                );
+                              } catch (e) {
+                                print("Error Logout: $e");
+                              }
+                              Navigator.of(context)
+                                  .pushReplacement(MaterialPageRoute(
+                                builder: (context) => LoginPage(),
+                              ));
+                            },
+                            child: const Text("Logout"),
+                          )
+                        ],
+                      );
+                    });
+
                 // Aksi yang ingin Anda lakukan ketika "Logout" diklik
               },
             ),
