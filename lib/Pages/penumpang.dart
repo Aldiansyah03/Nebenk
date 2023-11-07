@@ -1,18 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nebengk/Pages/PemesananKursiPage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:nebengk/Pages/Beritumpangan1.dart';
 
 class Penumpang extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFD9D9D9),
+      backgroundColor: const Color(0xFFD9D9D9),
       appBar: AppBar(
-        backgroundColor: Color(0xFF3668B2),
-        title: Text("NeBengK"),
+        backgroundColor: const Color(0xFF3668B2),
+        title: const Text("NeBengK"),
         actions: [
           IconButton(
-            icon: Icon(Icons.person), // Mengganti ikon person menjadi ikon chat
+            icon: const Icon(Icons.person),
             onPressed: () {
               // Implementasi tindakan ketika tombol chat ditekan
             },
@@ -20,85 +20,96 @@ class Penumpang extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 20), // Spasi antara header dan pencarian
+        child: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance.collection('trips').snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return CircularProgressIndicator(); // Tampilkan loading jika data belum tersedia
+            }
 
-              // Widget Pencarian
-              Container(
-                margin: EdgeInsets.all(15),
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.search),
-                    Container(
-                      margin: EdgeInsets.only(left: 10),
-                      width: 250,
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          hintText: "Telusuri ...",
-                          border: InputBorder.none,
-                        ),
-                      ),
+            final trips = snapshot.data!.docs;
+
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
+                  Container(
+                    margin: const EdgeInsets.all(15),
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                  ],
-                ),
-              ),
-              
-              SizedBox(height: 20), // Spasi antara pencarian dan daftar perjalanan
-              Container(
-                margin: EdgeInsets.all(15),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    // Gantilah data berikut dengan data yang sesuai dari daftar perjalanan
-                    String tanggal = "01-09-2023";
-                    String jam = "08:00 AM";
-                    int jumlahKursi = 3;
-                    String lokasi = "ITK";
-                    String pemberiTumpangan = "John Doe";
+                    child: Row(
+                      children: [
+                        const Icon(Icons.search),
+                        Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          width: 250,
+                          child: TextFormField(
+                            decoration: const InputDecoration(
+                              hintText: "Telusuri ...",
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Container(
+                    margin: const EdgeInsets.all(15),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: trips
+                          .length, // Menggunakan jumlah dokumen dari Firestore
+                      itemBuilder: (context, index) {
+                        final trip = trips[index];
+                        final data = trip.data() as Map<String, dynamic>;
 
-                    return GestureDetector(
-                      onTap: () {
-                        // Navigasi ke halaman rinci dengan data yang sesuai
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => PemesananKursiPage(
-                              tanggal: tanggal,
-                              jam: jam,
-                              jumlahKursi: jumlahKursi,
-                              lokasi: lokasi,
-                              pemberiTumpangan: pemberiTumpangan,
+                        return GestureDetector(
+                          onTap: () {
+                            // Navigasi ke halaman rinci dengan data yang sesuai
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => Beritumpangan1(
+                                  date: data['date'],
+                                  time: data['time'],
+                                  deadline: data['time'],
+                                  seatCount: data['seatCount'],
+                                  details: data['details'],
+                                  cost: data['cost'],
+                                  vehicleType: data['vehicleType'],
+                                  user: data[
+                                      'user'], // Ganti dengan data yang sesuai
+                                ),
+                              ),
+                            );
+                          },
+                          child: Card(
+                            elevation: 2,
+                            child: ListTile(
+                              leading: const Icon(
+                                Icons.directions_car,
+                                size: 50,
+                                color: Colors.blue,
+                              ),
+                              title: Text("Lokasi: ${data['details']}"),
+                              subtitle: Text(
+                                "Tanggal: ${data['date']}\nJam: ${data['time']}\nJumlah Kursi: ${data['seatCount']}\nPemberi Tumpangan: ${data['user']}", // Ganti dengan data yang sesuai
+                              ),
                             ),
                           ),
                         );
                       },
-                      child: Card(
-                        elevation: 2, // Efek elevasi untuk card
-                        child: ListTile(
-                          leading: Icon(
-                            Icons.directions_car,
-                            size: 50,
-                            color: Colors.blue, // Ganti dengan warna yang sesuai
-                          ),
-                          title: Text("Lokasi: $lokasi"),
-                          subtitle: Text("Tanggal: $tanggal\nJam: $jam\nJumlah Kursi: $jumlahKursi\nPemberi Tumpangan: $pemberiTumpangan"),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              )
-            ],
-          ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );

@@ -20,18 +20,19 @@ class DetailPenumpang extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFD9D9D9),
+      backgroundColor: const Color(0xFFD9D9D9),
       appBar: AppBar(
-        backgroundColor: Color(0xFF3668B2),
-        title: Text("Detail Penumpang"),
+        backgroundColor: const Color(0xFF3668B2),
+        title: const Text("Detail Penumpang"),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("Penumpang yang Memesan Kursi", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
-            SizedBox(height: 20.0),
+            const Text("Penumpang yang Memesan Kursi",
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 20.0),
             ListView.builder(
               shrinkWrap: true,
               itemCount: passengers.length,
@@ -47,28 +48,30 @@ class DetailPenumpang extends StatelessWidget {
 
   Widget buildPassengerItem(Passenger passenger) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 10.0),
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Row(
         children: [
           // Gambar akun
           Container(
             width: 50.0,
             height: 50.0,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage('assets/user_image.jpg'), // Ganti dengan path gambar akun
+                image: AssetImage(
+                    'assets/user_image.jpg'), // Ganti dengan path gambar akun
               ),
             ),
           ),
-          SizedBox(width: 10.0),
+          const SizedBox(width: 10.0),
           // Nama akun dan alamat
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(passenger.name, style: TextStyle(fontSize: 16.0)),
-              Text(passenger.address, style: TextStyle(fontSize: 14.0, color: Colors.grey)),
+              Text(passenger.name, style: const TextStyle(fontSize: 16.0)),
+              Text(passenger.address,
+                  style: const TextStyle(fontSize: 14.0, color: Colors.grey)),
             ],
           ),
         ],
@@ -76,4 +79,3 @@ class DetailPenumpang extends StatelessWidget {
     );
   }
 }
-

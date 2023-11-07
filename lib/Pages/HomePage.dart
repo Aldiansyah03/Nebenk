@@ -196,9 +196,6 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => BeriTumpangan()));
 
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => BeriTumpangan()));
-
                 // Aksi yang ingin Anda lakukan saat kotak motor ditekan
               },
               child: Container(
@@ -240,10 +237,11 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 // Navigator.push(context,
                 //     MaterialPageRoute(builder: (context) => Penumpang()));
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MapSample()),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => MapSample()),
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Penumpang()));
                 // Aksi yang ingin Anda lakukan saat kotak penumpang ditekan
               },
               child: Container(

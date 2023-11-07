@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:nebengk/Pages/HomePage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Trip {
   String vehicleType;
@@ -43,6 +44,7 @@ class BeriTumpangan extends StatefulWidget {
 }
 
 class _BeriTumpanganState extends State<BeriTumpangan> {
+  User? currentUser;
   String selectedVehicleType = "Mobil";
   int selectedSeatCount = 2;
 
@@ -51,6 +53,19 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
   TextEditingController batasWaktuPemesananController = TextEditingController();
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
+
+  Future<String> getUsername() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      if (user.displayName != null && user.displayName!.isNotEmpty) {
+        return user.displayName!;
+      } else {
+        return 'user';
+      }
+    } else {
+      return "User";
+    }
+  }
 
   Future<void> _selectTime(BuildContext context) async {
     final pickedTime = await showTimePicker(
@@ -214,6 +229,7 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   } else {
+                    // final userName = await getUsername();
                     // Munculkan dialog konfirmasi
                     showDialog(
                       context: context,

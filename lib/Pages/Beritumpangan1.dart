@@ -2,22 +2,24 @@ import 'package:flutter/material.dart';
 
 // import 'package:nebengk/Pages/detail_penumpang.dart';
 class Beritumpangan1 extends StatelessWidget {
-  final String jenisKendaraan;
-  final String jumlahKursi;
-  final String biayaPerjalanan;
-  final String detailPerjalanan;
-  final String batasWaktuPemesanan;
-  final String tanggalPerjalanan;
-  final String jamKeberangkatan;
+  final String vehicleType;
+  final String seatCount;
+  final String cost;
+  final String details;
+  final String deadline;
+  final String date;
+  final String time;
+  final String user;
 
   Beritumpangan1({
-    required this.jenisKendaraan,
-    required this.jumlahKursi,
-    required this.biayaPerjalanan,
-    required this.detailPerjalanan,
-    required this.batasWaktuPemesanan,
-    required this.tanggalPerjalanan,
-    required this.jamKeberangkatan,
+    required this.vehicleType,
+    required this.seatCount,
+    required this.cost,
+    required this.details,
+    required this.deadline,
+    required this.date,
+    required this.time,
+    required this.user,
   });
 
   @override
@@ -63,7 +65,7 @@ class Beritumpangan1 extends StatelessWidget {
                     const Text(
                         "Aldiansyah                                            ",
                         style: TextStyle(fontSize: 16.0)),
-                    Text("Biaya $batasWaktuPemesanan",
+                    Text("Biaya $deadline",
                         style: const TextStyle(
                             fontSize: 14.0, color: Colors.grey)),
                   ],
@@ -77,13 +79,12 @@ class Beritumpangan1 extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                        "$tanggalPerjalanan - $jamKeberangkatan - $jumlahKursi kursi",
+                    Text("$date - $time - $seatCount kursi",
                         style: const TextStyle(fontSize: 16.0))
                   ],
                 ),
                 Icon(
-                  jenisKendaraan == "     Mobil"
+                  vehicleType == "     Mobil"
                       ? Icons.directions_car
                       : Icons.motorcycle,
                   size: 40.0,
@@ -126,13 +127,13 @@ class Beritumpangan1 extends StatelessWidget {
                   Row(
                     children: [
                       Icon(
-                        jenisKendaraan == "Mobil"
+                        vehicleType == "Mobil"
                             ? Icons.directions_car
                             : Icons.motorcycle,
                         size: 20.0,
                         color: Colors.blue,
                       ),
-                      Text("   $biayaPerjalanan",
+                      Text("   $cost",
                           style: const TextStyle(
                               fontSize: 16.0, color: Colors.blue)),
                     ],
@@ -143,7 +144,7 @@ class Beritumpangan1 extends StatelessWidget {
                       const Icon(Icons.error_outline,
                           size: 20.0, color: Colors.blue),
                       Text(
-                        "   $detailPerjalanan",
+                        "   $details",
                         style:
                             const TextStyle(fontSize: 16.0, color: Colors.blue),
                       ),
