@@ -79,8 +79,8 @@ class Beritumpangan1 extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("$date - $time - $seatCount kursi",
-                        style: const TextStyle(fontSize: 16.0))
+                    Text("$seatCount kursi",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                   ],
                 ),
                 Icon(

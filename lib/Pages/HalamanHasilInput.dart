@@ -7,6 +7,7 @@ import 'package:nebengk/Pages/HomePage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Trip {
+  String user;
   String vehicleType;
   int seatCount;
   String cost;
@@ -16,6 +17,7 @@ class Trip {
   String time;
 
   Trip({
+    required this.user,
     required this.vehicleType,
     required this.seatCount,
     required this.cost,
@@ -27,6 +29,7 @@ class Trip {
 
   Map<String, dynamic> toMap() {
     return {
+      'user': user,
       'vehicleType': vehicleType,
       'seatCount': seatCount,
       'cost': cost,
@@ -44,28 +47,30 @@ class BeriTumpangan extends StatefulWidget {
 }
 
 class _BeriTumpanganState extends State<BeriTumpangan> {
-  User? currentUser;
+  // User? currentUser;
   String selectedVehicleType = "Mobil";
   int selectedSeatCount = 2;
 
+  TextEditingController namapemberitumpanganController =
+      TextEditingController();
   TextEditingController biayaPerjalananController = TextEditingController();
   TextEditingController detailPerjalananController = TextEditingController();
   TextEditingController batasWaktuPemesananController = TextEditingController();
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
 
-  Future<String> getUsername() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      if (user.displayName != null && user.displayName!.isNotEmpty) {
-        return user.displayName!;
-      } else {
-        return 'user';
-      }
-    } else {
-      return "User";
-    }
-  }
+  // Future<String> getUsername() async {
+  //   User? user = FirebaseAuth.instance.currentUser;
+  //   if (user != null) {
+  //     if (user.displayName != null && user.displayName!.isNotEmpty) {
+  //       return user.displayName!;
+  //     } else {
+  //       return 'user';
+  //     }
+  //   } else {
+  //     return "User";
+  //   }
+  // }
 
   Future<void> _selectTime(BuildContext context) async {
     final pickedTime = await showTimePicker(
@@ -99,6 +104,19 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                 ),
               ),
               const SizedBox(height: 25),
+              TextFormField(
+                  controller: namapemberitumpanganController,
+                  decoration: InputDecoration(
+                    labelText: "Nama Pemberi Tumpangan",
+                    hintText: "Masukan Nama Pemberi Tumpangan",
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    prefixIcon: const Icon(Icons.person),
+                  )),
+              const SizedBox(height: 16),
               DropdownButtonFormField<String>(
                 value: selectedVehicleType,
                 items: ["Mobil", "Motor"].map((String value) {
@@ -220,7 +238,8 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  if (selectedVehicleType.isEmpty ||
+                  if (namapemberitumpanganController.text.isEmpty ||
+                      selectedVehicleType.isEmpty ||
                       biayaPerjalananController.text.isEmpty ||
                       detailPerjalananController.text.isEmpty ||
                       batasWaktuPemesananController.text.isEmpty) {
@@ -251,6 +270,7 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                                 Navigator.of(context)
                                     .pop(); // Tutup dialog konfirmasi
                                 final trip = Trip(
+                                  user: namapemberitumpanganController.text,
                                   vehicleType: selectedVehicleType,
                                   seatCount: selectedSeatCount,
                                   cost: biayaPerjalananController.text,
@@ -266,16 +286,14 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                                   await firestore
                                       .collection('trips')
                                       .add(trip.toMap());
-                                  final snackBar = const SnackBar(
-                                    content: Text(
-                                        'Perjalanan berhasil dibuat. Silahkan tunggu untuk pengajuan dari pengguna lain. Dan anda bisa melihat Tawaran Tumpangan anda di menu Penumpang'),
-                                  );
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text(
+                                              "Perjalanan Berhasil Dibuat. Silahkan tunggu untuk pengajuan dari pengguna lain. Dan Anda bisa melihat Tawaran Tumpangan anda di Menu Penumpang")));
 
                                   // Future.delayed(const Duration(seconds: 2),
                                   //     () {
-                                  Navigator.of(context).pushReplacement(
+                                  await Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(
                                           builder: (context) => HomePage()));
                                 } catch (e) {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:nebengk/Pages/Beritumpangan1.dart';
+// import 'package:nebengk/Pages/Beritumpangan1.dart';
+// // import 'package:nebengk/Pages/Beritumpangan1.dart';
+import 'package:nebengk/Pages/PemesananKursiPage.dart';
 
 class Penumpang extends StatelessWidget {
   @override
@@ -74,16 +76,16 @@ class Penumpang extends StatelessWidget {
                             // Navigasi ke halaman rinci dengan data yang sesuai
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => Beritumpangan1(
+                                builder: (context) => PemesananKursiPage(
                                   date: data['date'],
                                   time: data['time'],
-                                  deadline: data['time'],
-                                  seatCount: data['seatCount'],
+                                  deadline: data['time'].toString(),
+                                  seatCount: data['seatCount'].toString(),
                                   details: data['details'],
                                   cost: data['cost'],
                                   vehicleType: data['vehicleType'],
-                                  user: data[
-                                      'user'], // Ganti dengan data yang sesuai
+                                  user: data['users']
+                                      .toString(), // Ganti dengan data yang sesuai
                                 ),
                               ),
                             );

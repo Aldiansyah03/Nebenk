@@ -59,10 +59,10 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             icon: const Icon(Icons.person),
             onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => MapSample()),
-              // ); // Implementasi tindakan ketika tombol pesan ditekan
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MapSample()),
+              ); // Implementasi tindakan ketika tombol pesan ditekan
             },
           ),
         ],
