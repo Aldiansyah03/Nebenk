@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:nebengk/Pages/Beritumpangan1.dart';
 // // import 'package:nebengk/Pages/Beritumpangan1.dart';
 import 'package:nebengk/Pages/PemesananKursiPage.dart';
+import 'package:nebengk/konfirmasi/konfirmasipenumpang.dart';
 
 class Penumpang extends StatelessWidget {
   @override
@@ -16,9 +17,15 @@ class Penumpang extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.person),
             onPressed: () {
-              // Implementasi tindakan ketika tombol chat ditekan
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => PemberiTumpanganPage(
+                    bookedSeats: [],
+                  ),
+                ),
+              );
             },
-          ),
+          )
         ],
       ),
       body: SafeArea(
@@ -84,8 +91,9 @@ class Penumpang extends StatelessWidget {
                                   details: data['details'],
                                   cost: data['cost'],
                                   vehicleType: data['vehicleType'],
-                                  user: data['users']
-                                      .toString(), // Ganti dengan data yang sesuai
+                                  user: data['users'].toString(),
+                                  bookedSeats: data['bookedSeats']
+                                      .toString(), // Ganti dengan data yang sesuai // Ganti dengan data yang sesuai
                                 ),
                               ),
                             );
