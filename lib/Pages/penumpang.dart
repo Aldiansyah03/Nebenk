@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:nebengk/Pages/Beritumpangan1.dart';
-// // import 'package:nebengk/Pages/Beritumpangan1.dart';
 import 'package:nebengk/Pages/PemesananKursiPage.dart';
 import 'package:nebengk/konfirmasi/konfirmasipenumpang.dart';
 
@@ -19,9 +17,7 @@ class Penumpang extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => PemberiTumpanganPage(
-                    bookedSeats: [],
-                  ),
+                  builder: (context) => KonfirmasiPenumpangPage(),
                 ),
               );
             },
@@ -72,28 +68,24 @@ class Penumpang extends StatelessWidget {
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: trips
-                          .length, // Menggunakan jumlah dokumen dari Firestore
+                      itemCount: trips.length,
                       itemBuilder: (context, index) {
                         final trip = trips[index];
                         final data = trip.data() as Map<String, dynamic>;
 
                         return GestureDetector(
                           onTap: () {
-                            // Navigasi ke halaman rinci dengan data yang sesuai
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => PemesananKursiPage(
                                   date: data['date'],
                                   time: data['time'],
-                                  deadline: data['time'].toString(),
+                                  deadline: data['deadline'],
                                   seatCount: data['seatCount'].toString(),
                                   details: data['details'],
                                   cost: data['cost'],
                                   vehicleType: data['vehicleType'],
-                                  user: data['users'].toString(),
-                                  bookedSeats: data['bookedSeats']
-                                      .toString(), // Ganti dengan data yang sesuai // Ganti dengan data yang sesuai
+                                  user: data['user'],
                                 ),
                               ),
                             );
@@ -108,7 +100,7 @@ class Penumpang extends StatelessWidget {
                               ),
                               title: Text("Lokasi: ${data['details']}"),
                               subtitle: Text(
-                                "Tanggal: ${data['date']}\nJam: ${data['time']}\nJumlah Kursi: ${data['seatCount']}\nPemberi Tumpangan: ${data['user']}", // Ganti dengan data yang sesuai
+                                "Tanggal: ${data['date']}\nJam: ${data['time']}\nJumlah Kursi: ${data['seatCount']}\nPemberi Tumpangan: ${data['user']}",
                               ),
                             ),
                           ),

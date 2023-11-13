@@ -1,131 +1,101 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
-class Trip {
-  String user;
-  String vehicleType;
-  int seatCount;
-  String cost;
-  String details;
-  String deadline;
-  String date;
-  String time;
-
-  Trip({
-    required this.user,
-    required this.vehicleType,
-    required this.seatCount,
-    required this.cost,
-    required this.details,
-    required this.deadline,
-    required this.date,
-    required this.time,
-  });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'user': user,
-      'vehicleType': vehicleType,
-      'seatCount': seatCount,
-      'cost': cost,
-      'details': details,
-      'deadline': deadline,
-      'date': date,
-      'time': time,
-    };
-  }
-}
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:nebengk/konfirmasi/halamandatapenumpang.dart';
 
 class PemesananKursiPage extends StatelessWidget {
-  final String vehicleType;
-  final String seatCount;
-  final String cost;
-  final String details;
-  final String deadline;
   final String date;
   final String time;
-  final String bookedSeats;
+  final String deadline;
+  final String seatCount;
+  final String details;
+  final String cost;
+  final String vehicleType;
   final String user;
 
-  PemesananKursiPage(
-      {required this.vehicleType,
-      required this.seatCount,
-      required this.cost,
-      required this.details,
-      required this.deadline,
-      required this.date,
-      required this.time,
-      required this.bookedSeats,
-      required this.user});
+  PemesananKursiPage({
+    required this.date,
+    required this.time,
+    required this.deadline,
+    required this.seatCount,
+    required this.details,
+    required this.cost,
+    required this.vehicleType,
+    required this.user,
+  });
 
   @override
   Widget build(BuildContext context) {
-    User? currentUser = FirebaseAuth.instance.currentUser;
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pemesanan Kursi'),
-        backgroundColor: Colors.blue,
+        title: Text("Pemesanan Kursi"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildInfoCard('Nama Pengemudi', user),
-            _buildInfoCard('Tanggal', date),
-            _buildInfoCard('Jam', time),
-            _buildInfoCard('Jumlah Kursi', seatCount),
-            _buildInfoCard('Lokasi', details),
+            buildInfoItem("Tanggal", date, Icons.date_range),
+            buildInfoItem("Jam", time, Icons.access_time),
+            buildInfoItem("Batas Pemesanan", deadline, Icons.timer),
+            buildInfoItem("Jumlah Kursi Tersedia", seatCount, Icons.event_seat),
+            buildInfoItem("Lokasi", details, Icons.location_on),
+            buildInfoItem("Biaya", cost, Icons.attach_money),
+            buildInfoItem("Jenis Kendaraan", vehicleType, Icons.directions_car),
+            buildInfoItem("Pemberi Tumpangan", user, Icons.person),
+            SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () async {
-                try {
-                  if (currentUser != null) {
-                    final trip = Trip(
-                      user: currentUser.displayName ?? 'User',
-                      vehicleType: vehicleType,
-                      seatCount: int.parse(seatCount),
-                      cost: cost,
-                      details: details,
-                      deadline: deadline,
-                      date: date,
-                      time: time,
+              onPressed: () {
+                // Tampilkan popup konfirmasi
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Konfirmasi'),
+                      content: Text('Apakah Anda yakin memesan kursi ini?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('Batal'),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            // Tambahkan logika pemesanan kursi di sini
+                            // Anda dapat menggunakan Firebase untuk menyimpan data pemesanan
+                            // Misalnya, dapat menggunakan Firestore untuk menyimpan data pemesanan ke koleksi 'bookings'
+                            await FirebaseFirestore.instance
+                                .collection('bookings')
+                                .add({
+                              'date': date,
+                              'time': time,
+                              'seatCount': seatCount,
+                              'details': details,
+                              'cost': cost,
+                              'vehicleType': vehicleType,
+                              'user': user,
+                            });
+
+                            // Setelah pemesanan berhasil, arahkan ke halaman selanjutnya
+                            Navigator.of(context)
+                                .pop(); // Tutup dialog konfirmasi
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DataPenumpangPage(
+                                    idTrip: "your_trip_id_here", date: date),
+                              ),
+                            );
+                          },
+                          child: Text('Ya'),
+                        ),
+                      ],
                     );
-
-                    await FirebaseFirestore.instance
-                        .collection('seat_bookings')
-                        .add(trip.toMap());
-
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('Pemesanan Kursi'),
-                          content: Text(
-                            'Pemesanan kursi telah dilakukan. Tunggu konfirmasi dari pemberi tumpangan.',
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text('OK'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-
-                    // Perform additional actions or navigate to another screen here
-                  } else {
-                    print('User not authenticated. Please log in.');
-                  }
-                } catch (e) {
-                  print('Error pemesanan kursi: $e');
-                }
+                  },
+                );
               },
-              child: Text('Pesan Kursi'),
+              child: Text("Pesan Kursi"),
             ),
           ],
         ),
@@ -133,28 +103,12 @@ class PemesananKursiPage extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoCard(String label, String value) {
+  Widget buildInfoItem(String label, String value, IconData icon) {
     return Card(
       elevation: 2,
-      margin: EdgeInsets.symmetric(vertical: 8),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: TextStyle(
-                color: Colors.blue,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              value,
-              style: TextStyle(fontSize: 16),
-            ),
-          ],
-        ),
+      child: ListTile(
+        leading: Icon(icon, size: 30, color: Colors.blue),
+        title: Text("$label: $value"),
       ),
     );
   }

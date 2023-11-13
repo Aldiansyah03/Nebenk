@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_declarations, avoid_print, use_build_context_synchronously, use_key_in_widget_constructors, library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
@@ -47,7 +45,6 @@ class BeriTumpangan extends StatefulWidget {
 }
 
 class _BeriTumpanganState extends State<BeriTumpangan> {
-  // User? currentUser;
   String selectedVehicleType = "Mobil";
   int selectedSeatCount = 2;
 
@@ -58,19 +55,6 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
   TextEditingController batasWaktuPemesananController = TextEditingController();
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
-
-  // Future<String> getUsername() async {
-  //   User? user = FirebaseAuth.instance.currentUser;
-  //   if (user != null) {
-  //     if (user.displayName != null && user.displayName!.isNotEmpty) {
-  //       return user.displayName!;
-  //     } else {
-  //       return 'user';
-  //     }
-  //   } else {
-  //     return "User";
-  //   }
-  // }
 
   Future<void> _selectTime(BuildContext context) async {
     final pickedTime = await showTimePicker(
@@ -105,17 +89,18 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
               ),
               const SizedBox(height: 25),
               TextFormField(
-                  controller: namapemberitumpanganController,
-                  decoration: InputDecoration(
-                    labelText: "Nama Pemberi Tumpangan",
-                    hintText: "Masukan Nama Pemberi Tumpangan",
-                    filled: true,
-                    fillColor: Colors.white,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    prefixIcon: const Icon(Icons.person),
-                  )),
+                controller: namapemberitumpanganController,
+                decoration: InputDecoration(
+                  labelText: "Nama Pemberi Tumpangan",
+                  hintText: "Masukan Nama Pemberi Tumpangan",
+                  filled: true,
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  prefixIcon: const Icon(Icons.person),
+                ),
+              ),
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(
                 value: selectedVehicleType,
@@ -248,8 +233,6 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   } else {
-                    // final userName = await getUsername();
-                    // Munculkan dialog konfirmasi
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -267,15 +250,15 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                             TextButton(
                               child: const Text('Ya'),
                               onPressed: () async {
-                                Navigator.of(context)
-                                    .pop(); // Tutup dialog konfirmasi
+                                Navigator.of(context).pop();
+
                                 final trip = Trip(
                                   user: namapemberitumpanganController.text,
                                   vehicleType: selectedVehicleType,
                                   seatCount: selectedSeatCount,
                                   cost: biayaPerjalananController.text,
                                   details: detailPerjalananController.text,
-                                  deadline: selectedTime.format(context),
+                                  deadline: batasWaktuPemesananController.text,
                                   date:
                                       "${selectedDate.toLocal()}".split(' ')[0],
                                   time: selectedTime.format(context),
@@ -287,15 +270,17 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                                       .collection('trips')
                                       .add(trip.toMap());
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text(
-                                              "Perjalanan Berhasil Dibuat. Silahkan tunggu untuk pengajuan dari pengguna lain. Dan Anda bisa melihat Tawaran Tumpangan anda di Menu Penumpang")));
+                                    const SnackBar(
+                                      content: Text(
+                                          "Perjalanan Berhasil Dibuat. Silahkan tunggu untuk pengajuan dari pengguna lain. Dan Anda bisa melihat Tawaran Tumpangan anda di Menu Penumpang"),
+                                    ),
+                                  );
 
-                                  // Future.delayed(const Duration(seconds: 2),
-                                  //     () {
                                   await Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                          builder: (context) => HomePage()));
+                                    MaterialPageRoute(
+                                      builder: (context) => HomePage(),
+                                    ),
+                                  );
                                 } catch (e) {
                                   print('Error adding trip: $e');
                                 }

@@ -1,77 +1,77 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class PemberiTumpanganPage extends StatelessWidget {
-  final List<String> bookedSeats; // Ganti dengan tipe data yang sesuai
+class KonfirmasiPenumpangPage extends StatelessWidget {
+  final String idTrip; // ID perjalanan yang harus disesuaikan
+  final String date; // Tambahkan parameter lain jika diperlukan
 
-  PemberiTumpanganPage({required this.bookedSeats});
+  KonfirmasiPenumpangPage({required this.idTrip, required this.date});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pemberi Tumpangan'),
+        title: Text("Konfirmasi Penumpang"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              'Daftar Pemesan Kursi',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
-            Expanded(
-              child: ListView.builder(
-                itemCount: bookedSeats.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text('Pemesan: ${bookedSeats[index]}'),
-                    trailing: ElevatedButton(
-                      onPressed: () {
-                        // Implementasi logika konfirmasi
-                        _confirmBooking(context, bookedSeats[index]);
-                      },
-                      child: Text('Konfirmasi'),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('datapenumpang')
+            .where('idTrip', isEqualTo: idTrip)
+            .where('date', isEqualTo: date)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
-  // Fungsi untuk menampilkan dialog konfirmasi
-  Future<void> _confirmBooking(BuildContext context, String pemesan) async {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Konfirmasi Pemesanan'),
-          content: Text('Konfirmasi pemesanan dari $pemesan?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Batal'),
-            ),
-            TextButton(
-              onPressed: () {
-                // Implementasi logika konfirmasi di sini
-                // Misalnya, mengubah status pemesanan atau yang lainnya
-                // Setelah itu, Anda bisa memperbarui UI atau menavigasi ke halaman lain
-                Navigator.of(context).pop();
-                // Tambahkan logika konfirmasi di sini
-              },
-              child: Text('Ya'),
-            ),
-          ],
-        );
-      },
+          final passengers = snapshot.data!.docs;
+
+          if (passengers.isEmpty) {
+            return Center(
+              child: Text('Tidak ada penumpang untuk dikonfirmasi.'),
+            );
+          }
+
+          return ListView.builder(
+            itemCount: passengers.length,
+            itemBuilder: (context, index) {
+              final passenger = passengers[index];
+              final data = passenger.data() as Map<String, dynamic>;
+
+              return Card(
+                elevation: 2,
+                margin: EdgeInsets.all(8),
+                child: ListTile(
+                  title: Text("Nama: ${data['nama']}"),
+                  subtitle: Text(
+                      "Telepon: ${data['noTelepon']} | Titik Jemput: ${data['titikJemput']}"),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.check),
+                        onPressed: () {
+                          // Tambahkan logika konfirmasi setuju di sini
+                          // Misalnya, Anda dapat memperbarui status penumpang menjadi 'setuju' pada Firestore
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.close),
+                        onPressed: () {
+                          // Tambahkan logika konfirmasi tidak setuju di sini
+                          // Misalnya, Anda dapat menghapus data penumpang dari Firestore
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
