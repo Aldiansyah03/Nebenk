@@ -17,7 +17,10 @@ class Penumpang extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => KonfirmasiPenumpangPage(),
+                  builder: (context) => KonfirmasiPenumpangPage(
+                    date: '',
+                    idTrip: '',
+                  ),
                 ),
               );
             },
@@ -86,6 +89,7 @@ class Penumpang extends StatelessWidget {
                                   cost: data['cost'],
                                   vehicleType: data['vehicleType'],
                                   user: data['user'],
+                                  tanggalbatas: data['tanggalbatas'],
                                 ),
                               ),
                             );
@@ -100,7 +104,7 @@ class Penumpang extends StatelessWidget {
                               ),
                               title: Text("Lokasi: ${data['details']}"),
                               subtitle: Text(
-                                "Tanggal: ${data['date']}\nJam: ${data['time']}\nJumlah Kursi: ${data['seatCount']}\nPemberi Tumpangan: ${data['user']}",
+                                "Tanggal: ${data['tanggalbatas']}\nJam: ${data['time']}\nJumlah Kursi: ${data['seatCount']}\nPemberi Tumpangan: ${data['user']}",
                               ),
                             ),
                           ),

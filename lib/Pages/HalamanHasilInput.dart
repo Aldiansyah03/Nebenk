@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
@@ -11,7 +13,8 @@ class Trip {
   String cost;
   String details;
   String deadline;
-  String date;
+  String tanggalbatas;
+  String datemake;
   String time;
 
   Trip({
@@ -21,7 +24,8 @@ class Trip {
     required this.cost,
     required this.details,
     required this.deadline,
-    required this.date,
+    required this.tanggalbatas,
+    required this.datemake,
     required this.time,
   });
 
@@ -32,8 +36,9 @@ class Trip {
       'seatCount': seatCount,
       'cost': cost,
       'details': details,
+      'tanggalbatas': tanggalbatas,
       'deadline': deadline,
-      'date': date,
+      'date': datemake,
       'time': time,
     };
   }
@@ -52,9 +57,26 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
       TextEditingController();
   TextEditingController biayaPerjalananController = TextEditingController();
   TextEditingController detailPerjalananController = TextEditingController();
+  TextEditingController tanggalperjalananController = TextEditingController();
   TextEditingController batasWaktuPemesananController = TextEditingController();
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final pickedDate = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+    );
+    if (pickedDate != null && pickedDate != selectedDate) {
+      setState(() {
+        selectedDate = pickedDate;
+        tanggalperjalananController.text =
+            "${selectedDate.toLocal()}".split(' ')[0];
+      });
+    }
+  }
 
   Future<void> _selectTime(BuildContext context) async {
     final pickedTime = await showTimePicker(
@@ -203,6 +225,23 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
               ),
               const SizedBox(height: 16),
               TextFormField(
+                controller: tanggalperjalananController,
+                onTap: () {
+                  _selectDate(context);
+                },
+                decoration: InputDecoration(
+                  labelText: 'Tanggal Perjalanan',
+                  hintText: "Masukan Tanggal Perjalanan",
+                  filled: true,
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  suffixIcon: const Icon(Icons.date_range),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
                 controller: batasWaktuPemesananController,
                 onTap: () {
                   _selectTime(context);
@@ -227,6 +266,7 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                       selectedVehicleType.isEmpty ||
                       biayaPerjalananController.text.isEmpty ||
                       detailPerjalananController.text.isEmpty ||
+                      tanggalperjalananController.text.isEmpty ||
                       batasWaktuPemesananController.text.isEmpty) {
                     final snackBar = const SnackBar(
                       content: Text('Data tidak boleh kosong'),
@@ -252,15 +292,17 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                               onPressed: () async {
                                 Navigator.of(context).pop();
 
+                                final now = DateTime.now();
                                 final trip = Trip(
                                   user: namapemberitumpanganController.text,
                                   vehicleType: selectedVehicleType,
                                   seatCount: selectedSeatCount,
                                   cost: biayaPerjalananController.text,
                                   details: detailPerjalananController.text,
+                                  tanggalbatas:
+                                      tanggalperjalananController.text,
                                   deadline: batasWaktuPemesananController.text,
-                                  date:
-                                      "${selectedDate.toLocal()}".split(' ')[0],
+                                  datemake: "${now.toLocal()}".split(' ')[0],
                                   time: selectedTime.format(context),
                                 );
 

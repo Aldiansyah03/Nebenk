@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:nebengk/konfirmasi/halamandatapenumpang.dart';
 
 class PemesananKursiPage extends StatelessWidget {
+  final String tanggalbatas;
   final String date;
   final String time;
   final String deadline;
@@ -13,6 +14,7 @@ class PemesananKursiPage extends StatelessWidget {
   final String user;
 
   PemesananKursiPage({
+    required this.tanggalbatas,
     required this.date,
     required this.time,
     required this.deadline,
@@ -27,7 +29,7 @@ class PemesananKursiPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Pemesanan Kursi"),
+        title: const Text("Pemesanan Kursi"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -35,7 +37,7 @@ class PemesananKursiPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            buildInfoItem("Tanggal", date, Icons.date_range),
+            buildInfoItem("Tanggal Perjalanan", tanggalbatas, Icons.date_range),
             buildInfoItem("Jam", time, Icons.access_time),
             buildInfoItem("Batas Pemesanan", deadline, Icons.timer),
             buildInfoItem("Jumlah Kursi Tersedia", seatCount, Icons.event_seat),
@@ -43,7 +45,7 @@ class PemesananKursiPage extends StatelessWidget {
             buildInfoItem("Biaya", cost, Icons.attach_money),
             buildInfoItem("Jenis Kendaraan", vehicleType, Icons.directions_car),
             buildInfoItem("Pemberi Tumpangan", user, Icons.person),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 // Tampilkan popup konfirmasi
@@ -51,14 +53,15 @@ class PemesananKursiPage extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text('Konfirmasi'),
-                      content: Text('Apakah Anda yakin memesan kursi ini?'),
+                      title: const Text('Konfirmasi'),
+                      content:
+                          const Text('Apakah Anda yakin memesan kursi ini?'),
                       actions: [
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                          child: Text('Batal'),
+                          child: const Text('Batal'),
                         ),
                         TextButton(
                           onPressed: () async {
@@ -88,14 +91,14 @@ class PemesananKursiPage extends StatelessWidget {
                               ),
                             );
                           },
-                          child: Text('Ya'),
+                          child: const Text('Ya'),
                         ),
                       ],
                     );
                   },
                 );
               },
-              child: Text("Pesan Kursi"),
+              child: const Text("Pesan Kursi"),
             ),
           ],
         ),
