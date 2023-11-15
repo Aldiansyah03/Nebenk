@@ -164,10 +164,15 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
+                    SizedBox(
+                      width: 350,
+                      height: 350,
+                      child: Image.asset("assets/NK.png"),
+                    ),
+                    const Text(
                       "Silahkan Login Untuk Melanjutkan",
                       style: TextStyle(
                           fontSize: 25,
