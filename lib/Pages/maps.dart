@@ -1,21 +1,10 @@
-// ignore_for_file: unnecessary_new, prefer_collection_literals, prefer_final_fields, prefer_const_constructors
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nebengk/maps/location_service.dart';
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Google Maps Demo',
-      home: MapSample(),
-    );
-  }
-}
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MapSample extends StatefulWidget {
   @override
@@ -43,7 +32,6 @@ class MapSampleState extends State<MapSample> {
   @override
   void initState() {
     super.initState();
-
     _setMarker(LatLng(37.42796133580664, -122.085749655962));
   }
 
@@ -134,6 +122,16 @@ class MapSampleState extends State<MapSample> {
                   );
 
                   _setPolyline(directions['polyline_decoded']);
+
+                  // Menyimpan perjalanan ke Firestore
+                  _saveTripToFirestore(
+                    _originController.text,
+                    _destinationController.text,
+                    directions['start_location']['lat'],
+                    directions['start_location']['lng'],
+                    directions['end_location']['lat'],
+                    directions['end_location']['lng'],
+                  );
                 },
                 icon: Icon(Icons.search),
               ),
@@ -157,21 +155,32 @@ class MapSampleState extends State<MapSample> {
               },
             ),
           ),
+          // Tombol Selanjutnya
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: () {
+                // Tambahkan logika untuk menangani penekanan tombol selanjutnya di sini
+                print('Tombol Selanjutnya Ditekan');
+                Navigator.pop(context, {
+                  'origin': _originController.text,
+                  'destination': _destinationController.text,
+                });
+              },
+              child: Text('Selanjutnya'),
+            ),
+          ),
         ],
       ),
     );
   }
 
   Future<void> _goToPlace(
-    // Map<String, dynamic> place,
     double lat,
     double lng,
     Map<String, dynamic> boundsNe,
     Map<String, dynamic> boundsSw,
   ) async {
-    // final double lat = place['geometry']['location']['lat'];
-    // final double lng = place['geometry']['location']['lng'];
-
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(
       CameraUpdate.newCameraPosition(
@@ -181,12 +190,36 @@ class MapSampleState extends State<MapSample> {
 
     controller.animateCamera(
       CameraUpdate.newLatLngBounds(
-          LatLngBounds(
-            southwest: LatLng(boundsSw['lat'], boundsSw['lng']),
-            northeast: LatLng(boundsNe['lat'], boundsNe['lng']),
-          ),
-          25),
+        LatLngBounds(
+          southwest: LatLng(boundsSw['lat'], boundsSw['lng']),
+          northeast: LatLng(boundsNe['lat'], boundsNe['lng']),
+        ),
+        25,
+      ),
     );
     _setMarker(LatLng(lat, lng));
+  }
+
+  void _saveTripToFirestore(
+    String origin,
+    String destination,
+    double startLat,
+    double startLng,
+    double endLat,
+    double endLng,
+  ) async {
+    try {
+      final FirebaseFirestore firestore = FirebaseFirestore.instance;
+      await firestore.collection('trips').add({
+        'origin': origin,
+        'destination': destination,
+        'start_location': GeoPoint(startLat, startLng),
+        'end_location': GeoPoint(endLat, endLng),
+      });
+
+      print('Trip saved to Firestore');
+    } catch (e) {
+      print('Error saving trip to Firestore: $e');
+    }
   }
 }

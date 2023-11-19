@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:nebengk/Pages/HomePage.dart';
+import 'package:nebengk/Pages/maps.dart';
 
 class Trip {
   String user;
@@ -55,6 +56,7 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
   TextEditingController biayaPerjalananController = TextEditingController();
   TextEditingController detailPerjalananController = TextEditingController();
   TextEditingController datetimePerjalananController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
   DateTime selectedDateTime = DateTime.now();
 
   Future<void> _selectDateTime(BuildContext context) async {
@@ -232,6 +234,35 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   suffixIcon: const Icon(Icons.date_range),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: locationController,
+                onTap: () async {
+                  // Tentukan variabel result
+                  Map<String, String>? result;
+
+                  result = await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => MapSample(),
+                    ),
+                  );
+                  if (result != null && result is Map<String, String>) {
+                    // Update controller dengan data origin dan destination
+                    locationController.text =
+                        'Origin: ${result['origin']}, Destination: ${result['destination']}';
+                  }
+                },
+                decoration: InputDecoration(
+                  labelText: 'Map Information',
+                  hintText: 'Enter map information',
+                  filled: true,
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  prefixIcon: const Icon(Icons.map),
                 ),
               ),
               const SizedBox(

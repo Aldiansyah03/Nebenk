@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nebengk/Pages/HalamanHasilInput.dart';
 import 'package:nebengk/Pages/LoginScreen.dart';
-import 'package:nebengk/Pages/maps.dart';
 import 'package:nebengk/Pages/penumpang.dart';
 import 'package:nebengk/Pages/profil.dart';
 import 'package:nebengk/Pages/pusatbantuan.dart';
@@ -61,7 +60,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MapSample()),
+                MaterialPageRoute(builder: (context) => BeriTumpangan()),
               ); // Implementasi tindakan ketika tombol pesan ditekan
             },
           ),
