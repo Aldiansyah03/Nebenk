@@ -14,6 +14,7 @@ class Trip {
   String tanggalbatas;
   String datemake;
   String time;
+  String location;
 
   Trip({
     required this.user,
@@ -25,6 +26,7 @@ class Trip {
     required this.tanggalbatas,
     required this.datemake,
     required this.time,
+    required this.location,
   });
 
   Map<String, dynamic> toMap() {
@@ -38,6 +40,7 @@ class Trip {
       'deadline': deadline,
       'date': datemake,
       'time': time,
+      'location': location,
     };
   }
 }
@@ -82,6 +85,7 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
           );
           datetimePerjalananController.text =
               "${selectedDateTime.toLocal()}".split('.')[0];
+          locationController.text = '';
         });
       }
     }
@@ -311,6 +315,8 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                                   deadline: datetimePerjalananController.text,
                                   datemake: "${now.toLocal()}".split(' ')[0],
                                   time: selectedDateTime.toLocal().toString(),
+                                  location: locationController
+                                      .text, // Tambahkan baris ini
                                 );
 
                                 try {
