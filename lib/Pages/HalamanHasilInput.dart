@@ -1,10 +1,7 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:nebengk/Pages/HomePage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class Trip {
   String user;
@@ -57,37 +54,34 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
       TextEditingController();
   TextEditingController biayaPerjalananController = TextEditingController();
   TextEditingController detailPerjalananController = TextEditingController();
-  TextEditingController tanggalperjalananController = TextEditingController();
-  TextEditingController batasWaktuPemesananController = TextEditingController();
-  DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime = TimeOfDay.now();
+  TextEditingController datetimePerjalananController = TextEditingController();
+  DateTime selectedDateTime = DateTime.now();
 
-  Future<void> _selectDate(BuildContext context) async {
-    final pickedDate = await showDatePicker(
+  Future<void> _selectDateTime(BuildContext context) async {
+    final DateTime? pickedDateTime = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: selectedDateTime,
       firstDate: DateTime.now(),
       lastDate: DateTime(2101),
     );
-    if (pickedDate != null && pickedDate != selectedDate) {
-      setState(() {
-        selectedDate = pickedDate;
-        tanggalperjalananController.text =
-            "${selectedDate.toLocal()}".split(' ')[0];
-      });
-    }
-  }
-
-  Future<void> _selectTime(BuildContext context) async {
-    final pickedTime = await showTimePicker(
-      context: context,
-      initialTime: selectedTime,
-    );
-    if (pickedTime != null) {
-      setState(() {
-        selectedTime = pickedTime;
-        batasWaktuPemesananController.text = selectedTime.format(context);
-      });
+    if (pickedDateTime != null) {
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+      if (pickedTime != null) {
+        setState(() {
+          selectedDateTime = DateTime(
+            pickedDateTime.year,
+            pickedDateTime.month,
+            pickedDateTime.day,
+            pickedTime.hour,
+            pickedTime.minute,
+          );
+          datetimePerjalananController.text =
+              "${selectedDateTime.toLocal()}".split('.')[0];
+        });
+      }
     }
   }
 
@@ -225,36 +219,19 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
               ),
               const SizedBox(height: 16),
               TextFormField(
-                controller: tanggalperjalananController,
+                controller: datetimePerjalananController,
                 onTap: () {
-                  _selectDate(context);
+                  _selectDateTime(context);
                 },
                 decoration: InputDecoration(
-                  labelText: 'Tanggal Perjalanan',
-                  hintText: "Masukan Tanggal Perjalanan",
+                  labelText: 'Tanggal & Waktu Perjalanan',
+                  hintText: 'Pilih Tanggal & Waktu',
                   filled: true,
                   fillColor: Colors.white,
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                   suffixIcon: const Icon(Icons.date_range),
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: batasWaktuPemesananController,
-                onTap: () {
-                  _selectTime(context);
-                },
-                decoration: InputDecoration(
-                  labelText: 'Batas Waktu Pemesanan',
-                  hintText: 'Masukkan batas waktu pemesanan',
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  suffixIcon: const Icon(Icons.access_time),
                 ),
               ),
               const SizedBox(
@@ -266,9 +243,8 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                       selectedVehicleType.isEmpty ||
                       biayaPerjalananController.text.isEmpty ||
                       detailPerjalananController.text.isEmpty ||
-                      tanggalperjalananController.text.isEmpty ||
-                      batasWaktuPemesananController.text.isEmpty) {
-                    final snackBar = const SnackBar(
+                      datetimePerjalananController.text.isEmpty) {
+                    const snackBar = SnackBar(
                       content: Text('Data tidak boleh kosong'),
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -300,10 +276,10 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                                   cost: biayaPerjalananController.text,
                                   details: detailPerjalananController.text,
                                   tanggalbatas:
-                                      tanggalperjalananController.text,
-                                  deadline: batasWaktuPemesananController.text,
+                                      datetimePerjalananController.text,
+                                  deadline: datetimePerjalananController.text,
                                   datemake: "${now.toLocal()}".split(' ')[0],
-                                  time: selectedTime.format(context),
+                                  time: selectedDateTime.toLocal().toString(),
                                 );
 
                                 try {

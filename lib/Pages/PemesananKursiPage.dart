@@ -38,8 +38,6 @@ class PemesananKursiPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             buildInfoItem("Tanggal Perjalanan", tanggalbatas, Icons.date_range),
-            buildInfoItem("Jam", time, Icons.access_time),
-            buildInfoItem("Batas Pemesanan", deadline, Icons.timer),
             buildInfoItem("Jumlah Kursi Tersedia", seatCount, Icons.event_seat),
             buildInfoItem("Lokasi", details, Icons.location_on),
             buildInfoItem("Biaya", cost, Icons.attach_money),

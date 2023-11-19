@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:nebengk/Pages/PemesananKursiPage.dart';
-import 'package:nebengk/konfirmasi/konfirmasipenumpang.dart';
 
 class Penumpang extends StatelessWidget {
   @override
@@ -11,31 +11,20 @@ class Penumpang extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color(0xFF3668B2),
         title: const Text("NeBengK"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => KonfirmasiPenumpangPage(
-                    date: '',
-                    idTrip: '',
-                  ),
-                ),
-              );
-            },
-          )
-        ],
       ),
       body: SafeArea(
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance.collection('trips').snapshots(),
           builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return CircularProgressIndicator(); // Tampilkan loading jika data belum tersedia
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            }
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
             }
 
             final trips = snapshot.data!.docs;
+            final currentTime = DateTime.now();
 
             return SingleChildScrollView(
               child: Column(
@@ -76,39 +65,51 @@ class Penumpang extends StatelessWidget {
                         final trip = trips[index];
                         final data = trip.data() as Map<String, dynamic>;
 
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => PemesananKursiPage(
-                                  date: data['date'],
-                                  time: data['time'],
-                                  deadline: data['deadline'],
-                                  seatCount: data['seatCount'].toString(),
-                                  details: data['details'],
-                                  cost: data['cost'],
-                                  vehicleType: data['vehicleType'],
-                                  user: data['user'],
-                                  tanggalbatas: data['tanggalbatas'],
+                        final dateString = data['tanggalbatas'] as String?;
+                        if (dateString != null) {
+                          final parsedDate = DateTime.tryParse(dateString);
+                          if (parsedDate != null) {
+                            if (parsedDate.isAfter(currentTime)) {
+                              final formattedDate =
+                                  DateFormat('dd-MM-yyyy HH:mm')
+                                      .format(parsedDate);
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => PemesananKursiPage(
+                                            tanggalbatas: data['tanggalbatas'],
+                                            date: data['date'],
+                                            time: data['time'],
+                                            deadline: data['deadline'],
+                                            seatCount:
+                                                data['seatCount'].toString(),
+                                            details: data['details'],
+                                            cost: data['cost'],
+                                            vehicleType: data['vehicleType'],
+                                            user: data['user'],
+                                          )));
+                                },
+                                child: Card(
+                                  elevation: 2,
+                                  child: ListTile(
+                                    leading: const Icon(
+                                      Icons.directions_car,
+                                      size: 50,
+                                      color: Colors.blue,
+                                    ),
+                                    title: Text("Lokasi: ${data['details']}"),
+                                    subtitle: Text(
+                                      "Tanggal dan Waktu : $formattedDate\nJumlah Kursi: ${data['seatCount']}\nPemberi Tumpangan: ${data['user']}",
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                          child: Card(
-                            elevation: 2,
-                            child: ListTile(
-                              leading: const Icon(
-                                Icons.directions_car,
-                                size: 50,
-                                color: Colors.blue,
-                              ),
-                              title: Text("Lokasi: ${data['details']}"),
-                              subtitle: Text(
-                                "Tanggal: ${data['tanggalbatas']}\nJam: ${data['time']}\nJumlah Kursi: ${data['seatCount']}\nPemberi Tumpangan: ${data['user']}",
-                              ),
-                            ),
-                          ),
-                        );
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                          }
+                        }
+                        return const SizedBox();
                       },
                     ),
                   ),
