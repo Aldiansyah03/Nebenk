@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:nebengk/Pages/HomePage.dart';
-import 'package:nebengk/Pages/maps.dart';
+import 'package:nebengk/maps/current_location_Screen.dart';
 
 class Trip {
   String user;
@@ -46,6 +47,9 @@ class Trip {
 }
 
 class BeriTumpangan extends StatefulWidget {
+  final LatLng? selectedLocation;
+  BeriTumpangan({Key? key, this.selectedLocation}) : super(key: key);
+
   @override
   _BeriTumpanganState createState() => _BeriTumpanganState();
 }
@@ -61,6 +65,15 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
   TextEditingController datetimePerjalananController = TextEditingController();
   TextEditingController locationController = TextEditingController();
   DateTime selectedDateTime = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.selectedLocation != null) {
+      locationController.text =
+          "${widget.selectedLocation!.latitude}, ${widget.selectedLocation!.longitude}";
+    }
+  }
 
   Future<void> _selectDateTime(BuildContext context) async {
     final DateTime? pickedDateTime = await showDatePicker(
@@ -244,19 +257,25 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
               TextFormField(
                 controller: locationController,
                 onTap: () async {
-                  // Tentukan variabel result
-                  Map<String, String>? result;
-
-                  result = await Navigator.of(context).push(
+                  final selectedLocation =
+                      await Navigator.of(context).push<LatLng>(
                     MaterialPageRoute(
-                      builder: (context) => MapSample(),
+                      builder: (context) => CurrentLocationScreen(),
                     ),
                   );
-                  if (result != null && result is Map<String, String>) {
-                    // Update controller dengan data origin dan destination
+
+                  if (selectedLocation != null) {
                     locationController.text =
-                        'Origin: ${result['origin']}, Destination: ${result['destination']}';
+                        "${selectedLocation.latitude}, ${selectedLocation.longitude}";
                   }
+                  // Tentukan variabel result
+                  // Map<String, String>? result;
+
+                  // result = await Navigator.of(context).push(
+                  //   MaterialPageRoute(
+                  //     builder: (context) => CurrentLocationScreen(),
+                  //   ),
+                  // );
                 },
                 decoration: InputDecoration(
                   labelText: 'Map Information',

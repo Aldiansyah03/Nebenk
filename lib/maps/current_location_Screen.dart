@@ -3,7 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CurrentLocationScreen extends StatefulWidget {
-  const CurrentLocationScreen({super.key});
+  const CurrentLocationScreen({Key? key});
 
   @override
   State<CurrentLocationScreen> createState() => _CurrentLocationScreenState();
@@ -16,6 +16,10 @@ class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
       CameraPosition(target: LatLng(-1.2379, 116.8529), zoom: 14);
 
   Set<Marker> markers = {};
+
+  void _onLocationSelected(LatLng selectedLocation) {
+    Navigator.pop(context, selectedLocation);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,24 +40,39 @@ class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           Position position = await _determinePosition();
-
-          googleMapController.animateCamera(CameraUpdate.newCameraPosition(
-              CameraPosition(
-                  target: LatLng(position.latitude, position.longitude),
-                  zoom: 14)));
-
-          markers.clear();
-
-          markers.add(Marker(
-              markerId: const MarkerId("current-location"),
-              position: LatLng(position.latitude, position.longitude)));
-
-          setState(() {});
+          _onLocationSelected(LatLng(position.latitude, position.longitude));
         },
         label: const Text("Posisi Saat Ini"),
         icon: const Icon(Icons.location_history),
       ),
     );
+  }
+
+  Future<void> _fetchLocation() async {
+    try {
+      Position position = await _determinePosition();
+
+      googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+          CameraPosition(
+              target: LatLng(position.latitude, position.longitude),
+              zoom: 14)));
+
+      markers.clear();
+
+      markers.add(Marker(
+          markerId: const MarkerId("current-location"),
+          position: LatLng(position.latitude, position.longitude)));
+
+      setState(() {});
+    } on LocationServiceDisabledException {
+      _showErrorDialog("Layanan Lokasi Dinonaktifkan");
+    } on LocationPermissionPermanentDeniedException {
+      _showErrorDialog("Izin Lokasi Ditolak Secara Permanen");
+    } on LocationPermissionDeniedException {
+      _showErrorDialog("Izin Lokasi Ditolak");
+    } catch (e) {
+      _showErrorDialog("Terjadi Kesalahan: $e");
+    }
   }
 
   Future<Position> _determinePosition() async {
@@ -62,27 +81,48 @@ class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      // Menampilkan pesan bahwa layanan lokasi dinonaktifkan
-      return Future.error("Location services disabled");
+      throw LocationServiceDisabledException();
     }
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.deniedForever) {
-      // Menampilkan pesan bahwa izin lokasi ditolak secara permanen
-      return Future.error("Location permissions permanently denied");
+      throw LocationPermissionPermanentDeniedException();
     }
 
     if (permission == LocationPermission.denied) {
-      // Jika izin ditolak, minta izin kembali
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        // Menampilkan pesan bahwa izin lokasi ditolak
-        return Future.error("Location permissions denied");
+        throw LocationPermissionDeniedException();
       }
     }
 
-    // Jika izin diberikan, dapatkan posisi saat ini
     Position position = await Geolocator.getCurrentPosition();
     return position;
   }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
+
+class LocationServiceDisabledException implements Exception {}
+
+class LocationPermissionDeniedException implements Exception {}
+
+class LocationPermissionPermanentDeniedException implements Exception {}
