@@ -21,6 +21,25 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void submit(BuildContext context) async {
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Error"),
+              content: const Text("Email atau Password tidak boleh kosong"),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("Tutup"),
+                )
+              ],
+            );
+          });
+      return;
+    }
     setState(() {
       isLoading = true;
     });
