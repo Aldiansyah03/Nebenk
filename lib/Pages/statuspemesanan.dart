@@ -1,38 +1,58 @@
 import 'package:flutter/material.dart';
 
-class StatusPage extends StatelessWidget {
-  final String driverName;
-  final String passengerName;
+enum Status { menunggu, diterima, ditolak }
 
-  StatusPage({required this.driverName, required this.passengerName});
+class StatusPemesananPage extends StatelessWidget {
+  final Status status;
+
+  StatusPemesananPage({required this.status});
+
+  String getStatusText(Status status) {
+    switch (status) {
+      case Status.menunggu:
+        return 'Menunggu';
+      case Status.diterima:
+        return 'Diterima';
+      case Status.ditolak:
+        return 'Ditolak';
+    }
+  }
+
+  Color getStatusColor(Status status) {
+    switch (status) {
+      case Status.menunggu:
+        return Colors.orange;
+      case Status.diterima:
+        return Colors.green;
+      case Status.ditolak:
+        return Colors.red;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Status Pemesanan'),
+        title: const Text('Status Pemesanan'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Data Pemberi Tumpangan:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Icon(
+              Icons.assignment,
+              size: 100,
+              color: getStatusColor(status),
             ),
-            SizedBox(height: 8),
-            Text('Nama Pemberi Tumpangan: $driverName'),
-            // Tambahkan data pemberi tumpangan yang lain di sini sesuai kebutuhan
-
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
-              'Data Penumpang:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              getStatusText(status),
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: getStatusColor(status),
+              ),
             ),
-            SizedBox(height: 8),
-            Text('Nama Penumpang: $passengerName'),
-            // Tambahkan data penumpang yang lain di sini sesuai kebutuhan
           ],
         ),
       ),

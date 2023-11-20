@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:nebengk/konfirmasi/halamandatapenumpang.dart';
+import 'package:nebengk/Pages/HomePage.dart';
+import 'package:nebengk/Pages/statuspemesanan.dart';
 
-class PemesananKursiPage extends StatelessWidget {
+enum StatusPemesanan { menunggu, diterima, ditolak }
+
+class PemesananKursiPage extends StatefulWidget {
   final String tanggalbatas;
   final String date;
   final String time;
@@ -26,6 +29,13 @@ class PemesananKursiPage extends StatelessWidget {
   });
 
   @override
+  _PemesananKursiPageState createState() => _PemesananKursiPageState();
+}
+
+class _PemesananKursiPageState extends State<PemesananKursiPage> {
+  late StatusPemesanan statusPemesanan = StatusPemesanan.menunggu;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -37,16 +47,18 @@ class PemesananKursiPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            buildInfoItem("Tanggal Perjalanan", tanggalbatas, Icons.date_range),
-            buildInfoItem("Jumlah Kursi Tersedia", seatCount, Icons.event_seat),
-            buildInfoItem("Lokasi", details, Icons.location_on),
-            buildInfoItem("Biaya", cost, Icons.attach_money),
-            buildInfoItem("Jenis Kendaraan", vehicleType, Icons.directions_car),
-            buildInfoItem("Pemberi Tumpangan", user, Icons.person),
+            buildInfoItem(
+                "Tanggal Perjalanan", widget.tanggalbatas, Icons.date_range),
+            buildInfoItem(
+                "Jumlah Kursi Tersedia", widget.seatCount, Icons.event_seat),
+            buildInfoItem("Lokasi", widget.details, Icons.location_on),
+            buildInfoItem("Biaya", widget.cost, Icons.attach_money),
+            buildInfoItem(
+                "Jenis Kendaraan", widget.vehicleType, Icons.directions_car),
+            buildInfoItem("Pemberi Tumpangan", widget.user, Icons.person),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Tampilkan popup konfirmasi
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -63,30 +75,43 @@ class PemesananKursiPage extends StatelessWidget {
                         ),
                         TextButton(
                           onPressed: () async {
-                            // Tambahkan logika pemesanan kursi di sini
-                            // Anda dapat menggunakan Firebase untuk menyimpan data pemesanan
-                            // Misalnya, dapat menggunakan Firestore untuk menyimpan data pemesanan ke koleksi 'bookings'
                             await FirebaseFirestore.instance
                                 .collection('bookings')
                                 .add({
-                              'date': date,
-                              'time': time,
-                              'seatCount': seatCount,
-                              'details': details,
-                              'cost': cost,
-                              'vehicleType': vehicleType,
-                              'user': user,
+                              'date': widget.date,
+                              'time': widget.time,
+                              'seatCount': widget.seatCount,
+                              'details': widget.details,
+                              'cost': widget.cost,
+                              'vehicleType': widget.vehicleType,
+                              'user': widget.user,
+                              'status': statusPemesanan.toString(),
                             });
 
-                            // Setelah pemesanan berhasil, arahkan ke halaman selanjutnya
                             Navigator.of(context)
                                 .pop(); // Tutup dialog konfirmasi
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => DataPenumpangPage(
-                                    idTrip: "your_trip_id_here", date: date),
+                                builder: (context) => HomePage(),
                               ),
+                            );
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Konfirmasi Pemesanan'),
+                                  content: Text(statusPemesanan.toString()),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('Tutup'),
+                                    ),
+                                  ],
+                                );
+                              },
                             );
                           },
                           child: const Text('Ya'),
