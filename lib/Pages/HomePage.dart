@@ -9,7 +9,8 @@ import 'package:nebengk/Pages/penumpang.dart';
 import 'package:nebengk/Pages/profil.dart';
 import 'package:nebengk/Pages/pusatbantuan.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:nebengk/maps/current_location_Screen.dart';
+import 'package:nebengk/Pages/statuspemesanan.dart';
+import 'package:nebengk/Pages/titikPenumpang.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -62,7 +63,10 @@ class _HomePageState extends State<HomePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => CurrentLocationScreen()),
+                    builder: (context) => StatusPage(
+                          passengerName: '',
+                          driverName: '',
+                        )),
               ); // Implementasi tindakan ketika tombol pesan ditekan
             },
           ),
@@ -241,8 +245,10 @@ class _HomePageState extends State<HomePage> {
                 // Navigator.push(
                 //   context,
                 //   MaterialPageRoute(builder: (context) => MapSample()),
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Penumpang()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PCurrentLocationScreen()));
                 // Aksi yang ingin Anda lakukan saat kotak penumpang ditekan
               },
               child: Container(
