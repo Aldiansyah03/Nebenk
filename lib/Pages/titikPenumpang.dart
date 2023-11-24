@@ -22,6 +22,12 @@ class _PCurrentLocationScreenState extends State<PCurrentLocationScreen> {
   Set<Marker> markers = {};
 
   @override
+  void dispose() {
+    googleMapController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -35,6 +41,7 @@ class _PCurrentLocationScreenState extends State<PCurrentLocationScreen> {
         mapType: MapType.normal,
         onMapCreated: (GoogleMapController controller) {
           googleMapController = controller;
+          _fetchLocation();
         },
       ),
       floatingActionButton: Row(
@@ -72,7 +79,8 @@ class _PCurrentLocationScreenState extends State<PCurrentLocationScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Penumpang(),
+                    builder: (context) =>
+                        Penumpang(userSelectedLocation: userSelectedLocation),
                   ),
                 );
               } else {
@@ -90,6 +98,46 @@ class _PCurrentLocationScreenState extends State<PCurrentLocationScreen> {
   Future<void> _fetchLocation() async {
     try {
       Position position = await _determinePosition();
+
+      userSelectedLocation = LatLng(
+        position.latitude,
+        position.longitude,
+      );
+      markers.add(
+        Marker(
+          markerId: const MarkerId("Posisi Saat ini"),
+          position: userSelectedLocation,
+          infoWindow: const InfoWindow(
+              title: "Posisi Saat ini", snippet: "lokasi saat ini"),
+          icon: BitmapDescriptor.defaultMarkerWithHue(
+            BitmapDescriptor.hueRed,
+          ),
+        ),
+      );
+
+      if (googleMapController != null) {
+        googleMapController.animateCamera(CameraUpdate.newCameraPosition(
+            (CameraPosition(target: userSelectedLocation, zoom: 15))));
+      }
+      setState(() {
+        userSelectedLocation = LatLng(
+          position.latitude,
+          position.longitude,
+        );
+        markers.add(
+          Marker(
+            markerId: const MarkerId("Posisi Saat Ini"),
+            position: userSelectedLocation,
+            infoWindow: const InfoWindow(
+              title: "Posisi Saat Ini",
+              snippet: "Lokasi Saat Ini",
+            ),
+            icon: BitmapDescriptor.defaultMarkerWithHue(
+              BitmapDescriptor.hueRed,
+            ),
+          ),
+        );
+      });
 
       googleMapController.animateCamera(CameraUpdate.newCameraPosition(
           CameraPosition(
