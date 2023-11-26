@@ -59,10 +59,14 @@ class _ProfilePageState extends State<ProfilePage> {
         body: ListView(
           children: [
             CircleAvatar(
-              radius: 100,
-              child: currentUser?.photoURL != null
-                  ? Image.network(currentUser!.photoURL!)
-                  : const Icon(Icons.person),
+              radius: 70,
+              backgroundImage: currentUser?.photoURL != null
+                  ? NetworkImage(currentUser!.photoURL!)
+                  : AssetImage('assets/profil.png') as ImageProvider,
+              child: Image(
+                fit: BoxFit.cover,
+                image: AssetImage('assets/profil.png'),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),

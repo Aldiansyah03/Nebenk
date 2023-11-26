@@ -79,6 +79,7 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFD9D9D9),
       appBar: AppBar(
         title: const Text("Edit Profil"),
         backgroundColor: const Color(0xFF3668B2),
@@ -111,9 +112,8 @@ class _EditProfileState extends State<EditProfile> {
                           shape: BoxShape.circle,
                           image: const DecorationImage(
                             fit: BoxFit.cover,
-                            image: NetworkImage(
-                              'https://cdn.pixabay.com/photo/2015/01/06/16/14/woman-590490_1280.jpg',
-                            ),
+                            image: AssetImage(
+                                'assets/profil.png'), // Ganti dengan path gambar akun
                           ),
                         ),
                       ),
@@ -154,7 +154,7 @@ class _EditProfileState extends State<EditProfile> {
                   children: [
                     OutlinedButton(
                       onPressed: () {
-                        getData(); // Mengembalikan data awal
+                        Navigator.pop(context); // Mengembalikan data awal
                       },
                       child: const Text(
                         "BATAL",
@@ -184,7 +184,7 @@ class _EditProfileState extends State<EditProfile> {
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.blue,
+                        primary: const Color(0xFF3668B2),
                         padding: const EdgeInsets.symmetric(horizontal: 50),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
@@ -215,6 +215,12 @@ class _EditProfileState extends State<EditProfile> {
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.only(bottom: 5),
           labelText: labeltext,
+          hintText: "Masukkan $labeltext",
+          filled: true,
+          fillColor: const Color.fromARGB(255, 217, 217, 217),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           prefixIcon: Icon(icon),
         ),
