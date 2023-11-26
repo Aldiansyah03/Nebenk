@@ -37,7 +37,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFD9D9D9),
       appBar: AppBar(
+        backgroundColor: const Color(0xFF3668B2),
         title: const Text('Reset Password'),
       ),
       body: Center(
@@ -70,6 +72,12 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: resetPassword,
+                style: ElevatedButton.styleFrom(
+                  primary: const Color(0xFF3668B2),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
                 child: const Text('Kirim Tautan Reset Password'),
               ),
               const SizedBox(height: 20),

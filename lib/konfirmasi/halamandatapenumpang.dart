@@ -21,8 +21,10 @@ class _DataPenumpangPageState extends State<DataPenumpangPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFD9D9D9),
       appBar: AppBar(
-        title: Text("Data Penumpang"),
+        backgroundColor: const Color(0xFF3668B2),
+        title: const Text("Data Penumpang"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -31,20 +33,20 @@ class _DataPenumpangPageState extends State<DataPenumpangPage> {
           children: [
             TextFormField(
               controller: namaController,
-              decoration: InputDecoration(labelText: 'Nama'),
+              decoration: const InputDecoration(labelText: 'Nama'),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextFormField(
               controller: noTeleponController,
               keyboardType: TextInputType.phone,
-              decoration: InputDecoration(labelText: 'Nomor Telepon'),
+              decoration: const InputDecoration(labelText: 'Nomor Telepon'),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextFormField(
               controller: titikJemputController,
-              decoration: InputDecoration(labelText: 'Titik Jemput'),
+              decoration: const InputDecoration(labelText: 'Titik Jemput'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
                 // Validasi data
@@ -53,7 +55,7 @@ class _DataPenumpangPageState extends State<DataPenumpangPage> {
                     titikJemputController.text.isEmpty) {
                   // Tampilkan pesan error jika ada field yang kosong
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       content: Text('Mohon isi semua data'),
                       duration: Duration(seconds: 2),
                     ),
@@ -74,7 +76,7 @@ class _DataPenumpangPageState extends State<DataPenumpangPage> {
 
                 // Setelah data berhasil disimpan, tampilkan snackbar sebagai umpan balik
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: Text('Data penumpang berhasil disimpan'),
                     duration: Duration(seconds: 2),
                   ),
@@ -85,7 +87,7 @@ class _DataPenumpangPageState extends State<DataPenumpangPage> {
                 noTeleponController.clear();
                 titikJemputController.clear();
               },
-              child: Text("Simpan Data Penumpang"),
+              child: const Text("Simpan Data Penumpang"),
             ),
           ],
         ),

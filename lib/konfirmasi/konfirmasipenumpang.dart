@@ -10,8 +10,10 @@ class KonfirmasiPenumpangPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFD9D9D9),
       appBar: AppBar(
-        title: Text("Konfirmasi Penumpang"),
+        backgroundColor: const Color(0xFF3668B2),
+        title: const Text("Konfirmasi Penumpang"),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
@@ -21,7 +23,7 @@ class KonfirmasiPenumpangPage extends StatelessWidget {
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -29,7 +31,7 @@ class KonfirmasiPenumpangPage extends StatelessWidget {
           final passengers = snapshot.data!.docs;
 
           if (passengers.isEmpty) {
-            return Center(
+            return const Center(
               child: Text('Tidak ada penumpang untuk dikonfirmasi.'),
             );
           }
@@ -42,7 +44,7 @@ class KonfirmasiPenumpangPage extends StatelessWidget {
 
               return Card(
                 elevation: 2,
-                margin: EdgeInsets.all(8),
+                margin: const EdgeInsets.all(8),
                 child: ListTile(
                   title: Text("Nama: ${data['nama']}"),
                   subtitle: Text(
@@ -51,14 +53,14 @@ class KonfirmasiPenumpangPage extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        icon: Icon(Icons.check),
+                        icon: const Icon(Icons.check),
                         onPressed: () {
                           // Tambahkan logika konfirmasi setuju di sini
                           // Misalnya, Anda dapat memperbarui status penumpang menjadi 'setuju' pada Firestore
                         },
                       ),
                       IconButton(
-                        icon: Icon(Icons.close),
+                        icon: const Icon(Icons.close),
                         onPressed: () {
                           // Tambahkan logika konfirmasi tidak setuju di sini
                           // Misalnya, Anda dapat menghapus data penumpang dari Firestore

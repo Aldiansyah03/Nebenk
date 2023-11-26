@@ -54,7 +54,7 @@ class _PemesananKursiPageState extends State<PemesananKursiPage> {
             buildInfoItem(
                 "Jumlah Kursi Tersedia", widget.seatCount, Icons.event_seat),
             buildInfoItem("Lokasi", widget.details, Icons.location_on),
-            buildInfoItem("Biaya", widget.cost, Icons.attach_money),
+            // buildInfoItem("Biaya", widget.cost, Icons.attach_money),
             buildInfoItem(
                 "Jenis Kendaraan", widget.vehicleType, Icons.directions_car),
             buildInfoItem("Pemberi Tumpangan", widget.user, Icons.person),
@@ -123,6 +123,11 @@ class _PemesananKursiPageState extends State<PemesananKursiPage> {
                   },
                 );
               },
+              style: ElevatedButton.styleFrom(
+                primary: const Color(0xFF3668B2),
+                onPrimary: Colors.white,
+                minimumSize: const Size(100, 40),
+              ),
               child: const Text("Pesan Kursi"),
             ),
           ],
@@ -135,7 +140,7 @@ class _PemesananKursiPageState extends State<PemesananKursiPage> {
     return Card(
       elevation: 2,
       child: ListTile(
-        leading: Icon(icon, size: 30, color: Colors.blue),
+        leading: Icon(icon, size: 30, color: const Color(0xFF3668B2)),
         title: Text("$label: $value"),
       ),
     );

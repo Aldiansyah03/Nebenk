@@ -97,7 +97,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFD9D9D9),
       appBar: AppBar(
+        backgroundColor: const Color(0xFF3668B2),
         title: const Text('Registrasi'),
       ),
       body: Padding(
@@ -228,6 +230,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   elevation: 0,
                   padding:
                       const EdgeInsets.symmetric(vertical: 20, horizontal: 100),
+                  primary: const Color(0xFF3668B2),
                 ),
                 child: const Text('Daftar'),
               ),
