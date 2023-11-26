@@ -24,7 +24,9 @@ class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFD9D9D9),
       appBar: AppBar(
+        backgroundColor: const Color(0xFF3668B2),
         title: const Text("Lokasi Saat Ini"),
         centerTitle: true,
       ),
@@ -44,6 +46,7 @@ class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
         },
         label: const Text("Posisi Saat Ini"),
         icon: const Icon(Icons.location_history),
+        backgroundColor: const Color(0xFF3668B2),
       ),
     );
   }
