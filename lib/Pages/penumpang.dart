@@ -1,34 +1,82 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:geolocator/geolocator.dart';
+// import 'package:flutter_google_maps_webservices/directions.dart';
+// import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:nebengk/Pages/PemesananKursiPage.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class Penumpang extends StatelessWidget {
+class Penumpang extends StatefulWidget {
   final LatLng userSelectedLocation;
 
   const Penumpang({Key? key, required this.userSelectedLocation})
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    const LatLng comparisonLocation =
-        LatLng(-1.1498851387881808, 116.8622265112238);
+  _PenumpangState createState() => _PenumpangState();
+}
 
-    double distanceInMeters = Geolocator.distanceBetween(
-      userSelectedLocation.latitude,
-      userSelectedLocation.longitude,
-      comparisonLocation.latitude,
-      comparisonLocation.longitude,
-    );
+class _PenumpangState extends State<Penumpang> {
+  double distanceInMeters = 0;
+  double biaya = 0;
 
-    double costpermeter = 2;
-    double biaya = distanceInMeters * costpermeter;
+  @override
+  void initState() {
+    super.initState();
+    _calculateDistance();
+  }
 
-    if (distanceInMeters < 3000) {
-      biaya = 0;
+  Future<void> _calculateDistance() async {
+    const String apiKey = 'AIzaSyDUxErMvsL-JYPxMw08E8PVL1SCno9pixI';
+    final String baseUrl =
+        'https://maps.googleapis.com/maps/api/directions/json?origin=${widget.userSelectedLocation.latitude},${widget.userSelectedLocation.longitude}&destination=-1.1498851387881808,116.8622265112238&key=$apiKey';
+
+    final response = await http.get(Uri.parse(baseUrl));
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      if (data['status'] == 'OK') {
+        final List<dynamic> routes = data['routes'];
+        final Map<String, dynamic> route = routes[0];
+        final Map<String, dynamic> legs = route['legs'][0];
+        final Map<String, dynamic> distance = legs['distance'];
+
+        setState(() {
+          distanceInMeters = distance['value'] / 1000; // Convert to kilometers
+          biaya = distanceInMeters * 2000; // Calculate cost per meter
+          if (distanceInMeters < 3) {
+            biaya = 0;
+          }
+          biaya = biaya.ceilToDouble() / 1000.ceilToDouble();
+        });
+      } else {
+        print('Error calculating distance: ${data['status']}');
+      }
+    } else {
+      print('Error fetching data');
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // const LatLng comparisonLocation =
+    //     LatLng(-1.1498851387881808, 116.8622265112238);
+
+    // double distanceInMeters = Geolocator.distanceBetween(
+    //   userSelectedLocation.latitude,
+    //   userSelectedLocation.longitude,
+    //   comparisonLocation.latitude,
+    //   comparisonLocation.longitude,
+    // );
+
+    // double costpermeter = 2;
+    // double biaya = distanceInMeters * costpermeter;
+
+    // if (distanceInMeters < 3000) {
+    //   biaya = 0;
+    // }
 
     return Scaffold(
       backgroundColor: const Color(0xFFD9D9D9),
@@ -43,7 +91,7 @@ class Penumpang extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Text(
-                "Jarak : ${distanceInMeters.toStringAsFixed(2)} Meter \n Biaya: ${biaya.toStringAsFixed(0)} Rupiah",
+                "Jarak : ${distanceInMeters.toStringAsFixed(2)} km \n Biaya: Rp. ${biaya.toStringAsFixed(0)}.000 ,-",
                 style: const TextStyle(fontSize: 20),
                 textAlign: TextAlign.left,
               ),
