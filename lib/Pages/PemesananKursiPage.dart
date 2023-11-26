@@ -38,7 +38,9 @@ class _PemesananKursiPageState extends State<PemesananKursiPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFD9D9D9),
       appBar: AppBar(
+        backgroundColor: const Color(0xFF3668B2),
         title: const Text("Pemesanan Kursi"),
       ),
       body: Padding(

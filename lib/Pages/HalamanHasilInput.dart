@@ -107,7 +107,9 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFD9D9D9),
       appBar: AppBar(
+        backgroundColor: const Color(0xFF3668B2),
         title: const Text("Buat Perjalanan"),
       ),
       body: Padding(
@@ -198,30 +200,30 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                   prefixIcon: const Icon(Icons.event_seat),
                 ),
               ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: biayaPerjalananController,
-                keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ],
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Biaya perjalanan tidak boleh kosong';
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  labelText: 'Biaya perjalanan',
-                  hintText: 'Masukkan biaya perjalanan',
-                  filled: true,
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  prefixIcon: const Icon(Icons.money),
-                ),
-              ),
+              // const SizedBox(height: 16),
+              // TextFormField(
+              //   controller: biayaPerjalananController,
+              //   keyboardType: TextInputType.number,
+              //   inputFormatters: <TextInputFormatter>[
+              //     FilteringTextInputFormatter.digitsOnly
+              //   ],
+              //   validator: (value) {
+              //     if (value!.isEmpty) {
+              //       return 'Biaya perjalanan tidak boleh kosong';
+              //     }
+              //     return null;
+              //   },
+              //   decoration: InputDecoration(
+              //     labelText: 'Biaya perjalanan',
+              //     hintText: 'Masukkan biaya perjalanan',
+              //     filled: true,
+              //     fillColor: Colors.white,
+              //     enabledBorder: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(10),
+              //     ),
+              //     prefixIcon: const Icon(Icons.money),
+              //   ),
+              // ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: detailPerjalananController,
@@ -291,82 +293,99 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
               const SizedBox(
                 height: 16,
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  if (namapemberitumpanganController.text.isEmpty ||
-                      selectedVehicleType.isEmpty ||
-                      biayaPerjalananController.text.isEmpty ||
-                      detailPerjalananController.text.isEmpty ||
-                      datetimePerjalananController.text.isEmpty) {
-                    const snackBar = SnackBar(
-                      content: Text('Data tidak boleh kosong'),
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Konfirmasi'),
-                          content: const Text(
-                              'Apakah Anda yakin ingin membuat perjalanan?'),
-                          actions: <Widget>[
-                            TextButton(
-                              child: const Text('Batal'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                            TextButton(
-                              child: const Text('Ya'),
-                              onPressed: () async {
-                                Navigator.of(context).pop();
-
-                                final now = DateTime.now();
-                                final trip = Trip(
-                                  user: namapemberitumpanganController.text,
-                                  vehicleType: selectedVehicleType,
-                                  seatCount: selectedSeatCount,
-                                  cost: biayaPerjalananController.text,
-                                  details: detailPerjalananController.text,
-                                  tanggalbatas:
-                                      datetimePerjalananController.text,
-                                  deadline: datetimePerjalananController.text,
-                                  datemake: "${now.toLocal()}".split(' ')[0],
-                                  time: selectedDateTime.toLocal().toString(),
-                                  location: locationController
-                                      .text, // Tambahkan baris ini
-                                );
-
-                                try {
-                                  final firestore = FirebaseFirestore.instance;
-                                  await firestore
-                                      .collection('trips')
-                                      .add(trip.toMap());
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          "Perjalanan Berhasil Dibuat. Silahkan tunggu untuk pengajuan dari pengguna lain. Dan Anda bisa melihat Tawaran Tumpangan anda di Menu Penumpang"),
-                                    ),
-                                  );
-
-                                  await Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                      builder: (context) => HomePage(),
-                                    ),
-                                  );
-                                } catch (e) {
-                                  print('Error adding trip: $e');
-                                }
-                              },
-                            ),
-                          ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () async {
+                      if (namapemberitumpanganController.text.isEmpty ||
+                          selectedVehicleType.isEmpty ||
+                          biayaPerjalananController.text.isEmpty ||
+                          detailPerjalananController.text.isEmpty ||
+                          datetimePerjalananController.text.isEmpty) {
+                        const snackBar = SnackBar(
+                          content: Text('Data tidak boleh kosong'),
                         );
-                      },
-                    );
-                  }
-                },
-                child: const Text('Buat perjalanan'),
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('Konfirmasi'),
+                              content: const Text(
+                                  'Apakah Anda yakin ingin membuat perjalanan?'),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text('Batal'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                TextButton(
+                                  child: const Text('Ya'),
+                                  onPressed: () async {
+                                    Navigator.of(context).pop();
+
+                                    final now = DateTime.now();
+                                    final trip = Trip(
+                                      user: namapemberitumpanganController.text,
+                                      vehicleType: selectedVehicleType,
+                                      seatCount: selectedSeatCount,
+                                      cost: biayaPerjalananController.text,
+                                      details: detailPerjalananController.text,
+                                      tanggalbatas:
+                                          datetimePerjalananController.text,
+                                      deadline:
+                                          datetimePerjalananController.text,
+                                      datemake:
+                                          "${now.toLocal()}".split(' ')[0],
+                                      time:
+                                          selectedDateTime.toLocal().toString(),
+                                      location: locationController
+                                          .text, // Tambahkan baris ini
+                                    );
+
+                                    try {
+                                      final firestore =
+                                          FirebaseFirestore.instance;
+                                      await firestore
+                                          .collection('trips')
+                                          .add(trip.toMap());
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                              "Perjalanan Berhasil Dibuat. Silahkan tunggu untuk pengajuan dari pengguna lain. Dan Anda bisa melihat Tawaran Tumpangan anda di Menu Penumpang"),
+                                        ),
+                                      );
+
+                                      await Navigator.of(context)
+                                          .pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (context) => HomePage(),
+                                        ),
+                                      );
+                                    } catch (e) {
+                                      print('Error adding trip: $e');
+                                    }
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color(0xFF3668B2),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                    child: const Text('Buat perjalanan'),
+                  ),
+                ],
               ),
             ],
           ),

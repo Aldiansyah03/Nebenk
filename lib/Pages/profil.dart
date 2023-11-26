@@ -51,6 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: const Color(0xFFD9D9D9),
         appBar: AppBar(
           title: const Text('Profil'),
           backgroundColor: const Color(0xFF3668B2),
@@ -63,25 +64,40 @@ class _ProfilePageState extends State<ProfilePage> {
                   ? Image.network(currentUser!.photoURL!)
                   : const Icon(Icons.person),
             ),
-            _buildProfileitem('Nama', nama, CupertinoIcons.person),
-            const SizedBox(height: 10),
-            _buildProfileitem(
-                'Nomor Telepon', nomor_telepon, CupertinoIcons.phone),
-            const SizedBox(height: 10),
-            _buildProfileitem('Alamat', alamat, CupertinoIcons.location),
-            const SizedBox(height: 10),
-            _buildProfileitem('Email', email, CupertinoIcons.mail),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => EditProfile()));
-                  },
-                  style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.all(15)),
-                  child: const Text('Edit Profil')),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _buildProfileitem('Nama', nama, CupertinoIcons.person),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _buildProfileitem(
+                  'Nomor Telepon', nomor_telepon, CupertinoIcons.phone),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child:
+                  _buildProfileitem('Alamat', alamat, CupertinoIcons.location),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _buildProfileitem('Email', email, CupertinoIcons.mail),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EditProfile()));
+                    },
+                    style: ElevatedButton.styleFrom(
+                        primary: const Color(0xFF3668B2),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10))),
+                    child: const Text('Edit Profil')),
+              ),
             )
           ],
         ));
