@@ -209,7 +209,7 @@ class _LoginPageState extends State<LoginPage> {
                     labelText: 'Email',
                     hintText: 'Masukkan email',
                     filled: true,
-                    fillColor: Colors.white,
+                    fillColor: const Color.fromARGB(255, 217, 217, 217),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -223,7 +223,7 @@ class _LoginPageState extends State<LoginPage> {
                     labelText: 'Password',
                     hintText: "Masukkan password",
                     filled: true,
-                    fillColor: Colors.white,
+                    fillColor: const Color.fromARGB(255, 217, 217, 217),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

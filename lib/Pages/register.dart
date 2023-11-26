@@ -129,7 +129,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   labelText: 'Nama',
                   hintText: 'Masukkan Nama Anda',
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: const Color.fromARGB(255, 217, 217, 217),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -149,7 +149,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   labelText: 'Email',
                   hintText: 'Masukkan Email Anda',
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: const Color.fromARGB(255, 217, 217, 217),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -173,7 +173,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   labelText: 'Password',
                   hintText: 'Buat Password Anda',
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: const Color.fromARGB(255, 217, 217, 217),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -193,7 +193,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   labelText: 'Nomor Telepon',
                   hintText: 'Masukkan Nomor Telepon Anda',
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: const Color.fromARGB(255, 217, 217, 217),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -213,7 +213,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   labelText: 'Alamat',
                   hintText: 'Masukkan Alamat Anda',
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: const Color.fromARGB(255, 217, 217, 217),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
