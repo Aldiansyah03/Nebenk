@@ -298,18 +298,19 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                 children: [
                   ElevatedButton(
                     onPressed: () async {
+                      final currentContext = context;
                       if (namapemberitumpanganController.text.isEmpty ||
                           selectedVehicleType.isEmpty ||
-                          biayaPerjalananController.text.isEmpty ||
                           detailPerjalananController.text.isEmpty ||
                           datetimePerjalananController.text.isEmpty) {
                         const snackBar = SnackBar(
                           content: Text('Data tidak boleh kosong'),
                         );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        ScaffoldMessenger.of(currentContext)
+                            .showSnackBar(snackBar);
                       } else {
                         showDialog(
-                          context: context,
+                          context: currentContext,
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: const Text('Konfirmasi'),
@@ -352,7 +353,7 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                                       await firestore
                                           .collection('trips')
                                           .add(trip.toMap());
-                                      ScaffoldMessenger.of(context)
+                                      ScaffoldMessenger.of(currentContext)
                                           .showSnackBar(
                                         const SnackBar(
                                           content: Text(
@@ -360,7 +361,7 @@ class _BeriTumpanganState extends State<BeriTumpangan> {
                                         ),
                                       );
 
-                                      await Navigator.of(context)
+                                      await Navigator.of(currentContext)
                                           .pushReplacement(
                                         MaterialPageRoute(
                                           builder: (context) => HomePage(),
