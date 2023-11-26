@@ -34,7 +34,6 @@ class _PCurrentLocationScreenState extends State<PCurrentLocationScreen> {
       appBar: AppBar(
         backgroundColor: const Color(0xFF3668B2),
         title: const Text("Lokasi Saat Ini"),
-        centerTitle: true,
       ),
       body: GoogleMap(
         initialCameraPosition: initialCameraPosition,

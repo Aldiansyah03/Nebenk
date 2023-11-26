@@ -1,7 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:nebengk/Pages/HomePage.dart';
-import 'package:nebengk/Pages/statuspemesanan.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+class MapScreen extends StatefulWidget {
+  final LatLng pickupLocation; // Lokasi penjemputan
+  final LatLng dropoffLocation; // Lokasi tujuan
+
+  const MapScreen({
+    Key? key,
+    required this.pickupLocation,
+    required this.dropoffLocation,
+  }) : super(key: key);
+
+  @override
+  _MapScreenState createState() => _MapScreenState();
+}
+
+class _MapScreenState extends State<MapScreen> {
+  late GoogleMapController mapController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFD9D9D9),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF3668B2),
+        title: const Text('Lokasi Pemberi Tumpangan'),
+      ),
+      body: GoogleMap(
+        onMapCreated: (controller) {
+          setState(() {
+            mapController = controller;
+          });
+        },
+        initialCameraPosition: CameraPosition(
+          target: widget.pickupLocation,
+          zoom: 14.0,
+        ),
+        markers: _createMarkers(),
+      ),
+    );
+  }
+
+  Set<Marker> _createMarkers() {
+    return {
+      Marker(
+        markerId: const MarkerId('pickup'),
+        position: widget.pickupLocation,
+        infoWindow: const InfoWindow(title: 'Penjemputan'),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+      ),
+      Marker(
+        markerId: const MarkerId('dropoff'),
+        position: widget.dropoffLocation,
+        infoWindow: const InfoWindow(title: 'Tujuan'),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+      ),
+    };
+  }
+}
 
 enum StatusPemesanan { menunggu, diterima, ditolak }
 
@@ -54,11 +112,29 @@ class _PemesananKursiPageState extends State<PemesananKursiPage> {
             buildInfoItem(
                 "Jumlah Kursi Tersedia", widget.seatCount, Icons.event_seat),
             buildInfoItem("Lokasi", widget.details, Icons.location_on),
-            // buildInfoItem("Biaya", widget.cost, Icons.attach_money),
             buildInfoItem(
                 "Jenis Kendaraan", widget.vehicleType, Icons.directions_car),
             buildInfoItem("Pemberi Tumpangan", widget.user, Icons.person),
-            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MapScreen(
+                      pickupLocation: const LatLng(-6.1753924, 106.8271528),
+                      dropoffLocation: const LatLng(-5.1753924, 106.8271528),
+                    ),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                onPrimary: Colors.white,
+                minimumSize: const Size(100, 40),
+              ),
+              child: const Text("Tampilkan Lokasi Pemberi Tumpangan",
+                  style: TextStyle(color: Colors.black)),
+            ),
             ElevatedButton(
               onPressed: () {
                 showDialog(

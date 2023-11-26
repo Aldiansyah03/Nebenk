@@ -61,23 +61,6 @@ class _PenumpangState extends State<Penumpang> {
 
   @override
   Widget build(BuildContext context) {
-    // const LatLng comparisonLocation =
-    //     LatLng(-1.1498851387881808, 116.8622265112238);
-
-    // double distanceInMeters = Geolocator.distanceBetween(
-    //   userSelectedLocation.latitude,
-    //   userSelectedLocation.longitude,
-    //   comparisonLocation.latitude,
-    //   comparisonLocation.longitude,
-    // );
-
-    // double costpermeter = 2;
-    // double biaya = distanceInMeters * costpermeter;
-
-    // if (distanceInMeters < 3000) {
-    //   biaya = 0;
-    // }
-
     return Scaffold(
       backgroundColor: const Color(0xFFD9D9D9),
       appBar: AppBar(
@@ -86,7 +69,7 @@ class _PenumpangState extends State<Penumpang> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.all(20.0),
@@ -115,8 +98,6 @@ class _PenumpangState extends State<Penumpang> {
                   return SingleChildScrollView(
                     child: Column(
                       children: [
-                        const SizedBox(height: 20),
-                        const SizedBox(height: 20),
                         Container(
                           margin: const EdgeInsets.all(15),
                           child: ListView.builder(
@@ -126,7 +107,6 @@ class _PenumpangState extends State<Penumpang> {
                             itemBuilder: (context, index) {
                               final trip = trips[index];
                               final data = trip.data() as Map<String, dynamic>;
-
                               final dateString =
                                   data['tanggalbatas'] as String?;
                               if (dateString != null) {
