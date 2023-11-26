@@ -173,7 +173,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFD9D9D9),
       appBar: AppBar(
+        backgroundColor: const Color(0xFF3668B2),
         title: const Text('Login'),
       ),
       body: SingleChildScrollView(
@@ -229,23 +231,46 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   obscureText: true,
                 ),
-                const SizedBox(height: 20),
-                isLoading
-                    ? const CircularProgressIndicator()
-                    : ElevatedButton(
-                        onPressed: () {
-                          submit(context);
-                        },
-                        child: const Text('Login'),
-                      ),
-                const SizedBox(height: 20),
-                TextButton(
+                Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    isLoading
+                        ? const CircularProgressIndicator()
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  submit(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: const Color(0xFF3668B2),
+                                  onPrimary: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                child: const Text('Login'),
+                              ),
+                            ],
+                          ),
+                  ],
+                ),
+                // const SizedBox(height: 20),
+                ElevatedButton(
                   onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => RegistrationPage()));
                   },
+                  style: ElevatedButton.styleFrom(
+                    primary: const Color(0xFF3668B2),
+                    onPrimary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
                   child: const Text('Register'),
                 ),
                 TextButton(
@@ -254,6 +279,13 @@ class _LoginPageState extends State<LoginPage> {
                       builder: (context) => ResetPasswordPage(),
                     ));
                   },
+                  style: TextButton.styleFrom(
+                    primary: const Color(0xFF3668B2),
+                    // onPrimary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
                   child: const Text('Lupa Kata Sandi'),
                 ),
               ],
